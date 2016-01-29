@@ -1,0 +1,22 @@
+if [ -z "$(ls -A ~/.zplug/)" ]; then
+    git clone https://github.com/b4b4r07/zplug ~/.zplug
+fi
+source ~/.zplug/zplug
+
+zplug "plugins/git", from:oh-my-zsh
+zplug "mafredri/zsh-async"
+# zplug "oskarkrawczyk/honukai-iterm-zsh"
+# zplug "sindresorhus/pure"
+zplug "themes/steeef", from:oh-my-zsh
+# zplug "zsh-users/zsh-syntax-highlighting", nice:10
+zplug "zsh-users/zsh-history-substring-search"
+zplug "peco/peco", as:command, from:gh-r
+zplug "b4b4r07/dotfiles", as:command, of:bin/peco-tmux
+
+if ! zplug check --verbose; then
+    printf "Install? [y/N]: "
+    if read -q; then
+        echo; zplug install
+    fi
+fi
+zplug load --verbose

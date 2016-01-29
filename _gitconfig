@@ -1,0 +1,14 @@
+[user]
+	name = relsa
+	email = relsample@gmail.com
+[alias]
+	br = branch
+	di = diff
+	st = status
+	co = checkout
+[color]
+	ui = auto
+[filter "lfs"]
+	clean = git lfs clean %f
+	smudge = git lfs smudge %f
+	required = true
