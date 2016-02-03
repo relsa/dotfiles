@@ -7,7 +7,7 @@ set t_Co=256
 colorscheme jellybeans
 " viとの互換性をとらない(vimの拡張機能を使うため）
 set nocompatible
-"行頭の余白内でTabを打ち込むと'shiftwidth'の数だけインデントする
+" 行頭の余白内でTabを打ち込むと'shiftwidth'の数だけインデントする
 set smarttab
 " 改行コードの自動認識
 set fileformats=unix,dos,mac
@@ -54,6 +54,8 @@ imap  <C-d> <Del>
 imap  <C-k> <C-o>d$
 map   <C-j> <C-w>p
 "  map  % <C-o>:%s/
+" <Leader>
+let mapleader = ';'
 
 "-----------------------------------------------------
 " ファイル操作関連
@@ -178,8 +180,6 @@ nnoremap j gj
 nnoremap k gk
 nnoremap <C-f> <C-f>zz
 nnoremap <C-b> <C-b>zz
-nnoremap <space><space> :<C-u>edit ~/.vimrc<CR>
-nnoremap <space>s :<C-u>source ~/.vimrc<CR>
 
 "-----------------------------------------------------
 " タブ
@@ -240,6 +240,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'junegunn/vim-plug', {'dir': '~/.vim/plugged/vim-plug/autoload'}
 
   Plug 'Shougo/unite.vim'
+  Plug 'Shougo/neomru.vim'
   Plug 'Shougo/neocomplete.vim'
   Plug 'Shougo/neosnippet'
   Plug 'Shougo/neosnippet-snippets'
@@ -252,28 +253,44 @@ call plug#begin('~/.vim/plugged')
   Plug 'tpope/vim-surround'
   Plug 'easymotion/vim-easymotion'
   Plug 'haya14busa/incsearch.vim'
+  Plug 'rhysd/clever-f.vim'
   Plug 'kana/vim-operator-user'
   Plug 'kana/vim-operator-replace'
   Plug 'tyru/caw.vim'
+  Plug 'Yggdroot/indentLine'
   Plug 'davidhalter/jedi-vim', {'for': 'python'}
   Plug 'jmcantrell/vim-virtualenv', {'for': 'python'}
 call plug#end()
 
+" Unite.vim
+nnoremap [unite] <Nop>
+xnoremap [unite] <Nop>
+nmap <Leader>u [unite]
+xmap <Leader>u [unite]
+nnoremap <silent> [unite]b :<C-u>Unite buffer<CR>
+nnoremap <silent> [unite]f :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
+nnoremap <silent> [unite]r :<C-u>Unite -buffer-name=register register<CR>
+nnoremap <silent> [unite]m :<C-u>Unite file_mru<CR>
+nnoremap <silent> [unite]u :<C-u>Unite buffer file_mru<CR>
+
 let g:neocomplete#enable_at_startup = 1
 
 let g:neosnippet#snippets_directory='~/.vim/plugged/vim-snippets/snippets'
-imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-k>     <Plug>(neosnippet_expand_target)
+imap <C-k> <Plug>(neosnippet_expand_or_jump)
+smap <C-k> <Plug>(neosnippet_expand_or_jump)
+xmap <C-k> <Plug>(neosnippet_expand_target)
 imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
             \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
             \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
 let g:vimfiler_as_default_explorer = 1
-command Vf VimFiler -buffer-name=explorer -split -simple -winwidth=35 -toggle -no-quit
+nnoremap <Leader>vb :VimFilerBufferDir<CR>
+nnoremap <Leader>vf :VimFiler -buffer-name=explorer -split -simple -winwidth=35 -toggle -no-quit<CR>
+nnoremap <Leader>vt :VimFilerBufferDir -tab<CR>
 
 " vim-quickrun
+nnoremap <silent> <Leader>r :QuickRun<CR>
 let g:quickrun_config = get(g:, 'quickrun_config', {})
 let g:quickrun_config._ = {
       \ 'runner'    : 'vimproc',
@@ -295,31 +312,55 @@ let g:lightline = {
 let g:EasyMotion_do_mapping = 0
 let g:EasyMotion_do_shade = 0
 let g:EasyMotion_smartcase = 1
+let g:EasyMotion_enter_jump_first = 1
 nmap s <Plug>(easymotion-overwin-f2)
+omap f <Plug>(easymotion-bd-fl)
+xmap f <Plug>(easymotion-bd-fl)
+omap F <Plug>(easymotion-Fl)
+xmap F <Plug>(easymotion-Fl)
+omap t <Plug>(easymotion-tl)
+xmap t <Plug>(easymotion-tl)
+omap T <Plug>(easymotion-Tl)
+xmap T <Plug>(easymotion-Tl)
+map <Leader>h <Plug>(easymotion-linebackward)
 map <Leader>j <Plug>(easymotion-j)
 map <Leader>k <Plug>(easymotion-k)
+map <Leader>l <Plug>(easymotion-lineforward)
 
 " incsearch.vim
+let g:incsearch#auto_nohlsearch = 1
 map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
-let g:incsearch#auto_nohlsearch = 1
-map n  <Plug>(incsearch-nohl-n)
-map N  <Plug>(incsearch-nohl-N)
+map n  <Plug>(incsearch-nohl-n)zz
+map N  <Plug>(incsearch-nohl-N)zz
 map *  <Plug>(incsearch-nohl-*)
 map #  <Plug>(incsearch-nohl-#)
 map g* <Plug>(incsearch-nohl-g*)
 map g# <Plug>(incsearch-nohl-g#)
 
+" clever-f.vim
+let g:clever_f_not_overwrites_standard_mappings = 1
+let g:clever_f_smart_case = 1
+let g:clever_f_across_no_line = 1
+nmap f <Plug>(clever-f-f)
+nmap F <Plug>(clever-f-F)
+
 " vim-operator-replace
 nmap R <Plug>(operator-replace)
+vmap R <Plug>(operator-replace)
 
 " caw.vim
 nmap <Leader>c <Plug>(caw:i:toggle)
 vmap <Leader>c <Plug>(caw:i:toggle)
 
+" indentLine
+let g:indentLine_color_term = 239
+let g:indentLine_faster = 1
+nmap <silent><Leader>i :<C-u>IndentLinesToggle<CR>
+
 " jedi-vim
-let g:jedi#rename_command = "<leader>R"
+let g:jedi#rename_command = "<Leader>R"
 
 "-----------------------------------------------------
 " 文字コードの自動認識
