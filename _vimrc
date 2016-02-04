@@ -1,10 +1,8 @@
 "-----------------------------------------------------
 " 基本的な設定
 "-----------------------------------------------------
-"色設定
-syntax enable
+" 256色表示
 set t_Co=256
-colorscheme jellybeans
 " viとの互換性をとらない(vimの拡張機能を使うため）
 set nocompatible
 " 行頭の余白内でTabを打ち込むと'shiftwidth'の数だけインデントする
@@ -28,32 +26,25 @@ vnoremap <silent> co :ContinuousNumber <C-a><CR>
 command! -count -nargs=1 ContinuousNumber let c = col('.')|for n in range(1, <count>?<count>-line('.'):1)|exec 'normal! j' . n . <q-args>|call cursor('.', c)|endfor
 
 " ESCを二回押すことでハイライトを消す
-nmap <silent> <Esc><Esc> :nohlsearch<CR>
-" 選択してccで文字数カウント
-vnoremap <silent> cc :s/./&/gn<Esc><Esc> <CR>
+nmap <silent> <Esc><Esc> :<C-u>nohlsearch<CR>
 " vを二回で行末まで選択
 vnoremap v $h
 " Yで行末までコピー
-vnoremap Y y$
+nnoremap Y y$
 
 "-----------------------------------------------------
 " キーバインド変更
 "-----------------------------------------------------
-" map CTRL-E to end-of-line (insert mode)
-" map CTRL-A to beginning-of-line (insert mode)
-imap  <C-a> <C-o>^
-imap  <C-e> <End>
-imap  <C-w> <esc>bcw
-imap  <C-b> <Left>
-imap  <C-f> <Right>
-imap  <C-p> <Up>
-imap  <C-n> <Down>
-imap  <C-u> <C-u><C-o>d0
-" imap  <C-x> <esc>xi
-imap  <C-d> <Del>
-imap  <C-k> <C-o>d$
-map   <C-j> <C-w>p
-"  map  % <C-o>:%s/
+inoremap  <C-a> <Home>
+inoremap  <C-e> <End>
+inoremap  <C-b> <Left>
+inoremap  <C-f> <Right>
+inoremap  <C-p> <Up>
+inoremap  <C-n> <Down>
+inoremap  <C-d> <Del>
+inoremap  <C-u> <C-o>d0
+inoremap  <C-k> <C-o>d$
+
 " <Leader>
 let mapleader = ';'
 
@@ -68,15 +59,24 @@ set browsedir=current
 "-----------------------------------------------------
 " バックアップをとる
 set backup
-if !filewritable($HOME."/.vim_backup")
+if !isdirectory($HOME."/.vim_backup")
   call mkdir($HOME."/.vim_backup", "p")
 endif
 set backupdir=$HOME/.vim_backup
-if !filewritable($HOME."/.vim_swap")
+
+if !isdirectory($HOME."/.vim_swap")
   call mkdir($HOME."/.vim_swap", "p")
 endif
 set directory=$HOME/.vim_swap
-"let &directory = &backup dir
+
+if has('persistent_undo')
+    if !isdirectory($HOME.'/.vim_undo')
+        call mkdir($HOME.'/.vim_undo', 'p')
+    endif
+    set undofile
+    set undoreload=1000
+    set undodir=~/.vim_undo
+endif
 " ファイルの上書き前にバックアップ作成。成功したら削除
 set writebackup
 
@@ -93,10 +93,7 @@ set smartcase
 set nowrapscan
 " インクリメンタルサーチを使う
 set incsearch
-" バックスラッシュやクエスチョンを状況に合わせ自動的にエスケープ
-cnoremap <expr> / getcmdtype() == '/' ? '\/' : '/'
-cnoremap <expr> ? getcmdtype() == '?' ? '\?' : '?'
-" 検索後にジャンプした際に検索単語を画面中央に持ってくる
+" 検索後にジャンプした際に検索単語を画面中央に持ってくる -> incsearch
 " nnoremap n nzz
 " nnoremap N Nzz
 " nnoremap * *zz
@@ -121,15 +118,12 @@ set showcmd
 set laststatus=2
 " 括弧入力時に対応する括弧を表示
 set showmatch
-" シンタックスハイライトを有効にする
-syntax on
 " 検索結果文字列のハイライトを有効にする
-set hlsearch
+set hlsearch | nohlsearch
 " コマンドライン補完を拡張モードにする
 set wildmenu
 " 行末から次の行へ移るようにする
-set whichwrap=b,s,[,],<,>
-" set whichwrap=b,s,h,l,<,>,[,]
+set whichwrap=b,s,h,l,<,>,[,]
 set backspace=indent,eol,start
 " 入力されているテキストの最大幅を無効にする
 set textwidth=0
@@ -137,41 +131,28 @@ set textwidth=0
 set wrap
 " 現在の行をハイライト
 set cursorline
-highlight CursorLine ctermbg=53
-" 行末の空白をハイライト
-highlight WhitespaceEOL ctermbg=red guibg=red
-autocmd WinEnter * match WhitespaceEOL /\s\+$/
-matc WhitespaceEOL /\s\+$/
-" 行末の空白文字を可視化
-highlight WhitespaceEOL cterm=underline ctermbg=red guibg=#FF0000
-au BufWinEnter * let w:m1 = matchadd("WhitespaceEOL", ' +$')
-au WinEnter * let w:m1 = matchadd("WhitespaceEOL", ' +$')
-" 全角スペースの表示
-highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=darkgray
-matc ZenkakuSpace /　/
-" 保存時に行末の空白を除去する
-autocmd BufWritePre * :%s/\s\+$//ge
-function! s:remove_dust()
-    let cursor = getpos(".")
-    " 保存時に行末の空白を除去する
-    %s/\s\+$//ge
-    call setpos(".", cursor)
-    unlet cursor
+" 行末と全角スペースをハイライト
+function! s:hl_trailing_spaces()
+    highlight! link TrailingSpaces Error
+    syntax match TrailingSpaces containedin=ALL /\s\+$/
 endfunction
-autocmd BufWritePre * call <SID>remove_dust()
-" markdownファイルの時は空白をハイライトする
-highlight UnderLined cterm=NONE ctermbg=darkgray guibg=#FF0000
-function! s:RTrim()
-  let s:cursor = getpos(".")
-  if &filetype == "markdown"
-    %s/\s\+\(\s\{2}\)$/\1/e
-    match UnderLined /\s\{2}/
-  else
-    %s/\s\+$//ge
-  endif
-  call setpos(".", s:cursor)
+function! s:hl_zenkaku()
+    highlight! link ZenkakuSpace Error
+    syntax match ZenkakuSpace containedin=ALL /　/
 endfunction
-autocmd BufWritePre * call <SID>RTrim()
+autocmd BufWinEnter,ColorScheme,Syntax * call s:hl_trailing_spaces()
+autocmd BufWinEnter,ColorScheme,Syntax * call s:hl_zenkaku()
+
+" ハイライトをちょっと修正
+function! s:my_highlight()
+    highlight! CursorLine ctermbg=53
+    highlight! Search cterm=BOLD ctermbg=125 ctermfg=255
+endfunction
+autocmd BufWinEnter,ColorScheme * call s:my_highlight()
+
+" シンタックスハイライトを有効にする
+syntax enable
+colorscheme jellybeans
 
 "-----------------------------------------------------
 " 移動
@@ -182,8 +163,10 @@ nnoremap <C-f> <C-f>zz
 nnoremap <C-b> <C-b>zz
 
 "-----------------------------------------------------
-" タブ
+" インデント
 "-----------------------------------------------------
+" ファイルごとに設定を変える
+filetype plugin indent on
 " タブが対応する空白の数
 set tabstop=4
 " タブやバックスペースの使用等の編集操作をするときに、タブが対応する空白の数
@@ -194,10 +177,6 @@ set shiftwidth=4
 set expandtab
 " インデントをオプションの'shiftwidth'の値の倍数に丸める
 set shiftround
-
-"-----------------------------------------------------
-" インデント
-"-----------------------------------------------------
 " オートインデントを有効にする
 set autoindent
 " 新しい行を作ったときに高度な自動インデントを行う。 'cindent'
@@ -221,8 +200,9 @@ set fileencodings=utf-8,iso-2022-jp,cp932,sjis,euc-jp
 
 " 入力モード中に素早くjjと入力した場合はESCとみなす
 inoremap jj <Esc>
+cnoremap jj <Esc>
 " w!! でスーパーユーザーとして保存（sudoが使える環境限定）
-cmap w!! w !sudo tee > /dev/null %
+cnoreabbrev w!! w !sudo tee > /dev/null %
 
 "-----------------------------------------------------
 " プラグイン管理
@@ -285,9 +265,9 @@ smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
             \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
 let g:vimfiler_as_default_explorer = 1
-nnoremap <Leader>vb :VimFilerBufferDir<CR>
-nnoremap <Leader>vf :VimFiler -buffer-name=explorer -split -simple -winwidth=35 -toggle -no-quit<CR>
-nnoremap <Leader>vt :VimFilerBufferDir -tab<CR>
+nnoremap <Leader>vf :<C-u>VimFiler -buffer-name=explorer -split -simple -winwidth=35 -toggle -no-quit<CR>
+nnoremap <Leader>vb :<C-u>VimFilerBufferDir<CR>
+nnoremap <Leader>vt :<C-u>VimFilerBufferDir -tab<CR>
 
 " vim-quickrun
 nnoremap <silent> <Leader>r :QuickRun<CR>
@@ -357,20 +337,8 @@ vmap <Leader>c <Plug>(caw:i:toggle)
 " indentLine
 let g:indentLine_color_term = 239
 let g:indentLine_faster = 1
-nmap <silent><Leader>i :<C-u>IndentLinesToggle<CR>
+nnoremap <silent><Leader>i :<C-u>IndentLinesToggle<CR>
 
 " jedi-vim
 let g:jedi#rename_command = "<Leader>R"
 
-"-----------------------------------------------------
-" 文字コードの自動認識
-"-----------------------------------------------------
-if &encoding !=# 'utf-8'
-  set encoding=japan
-  set fileencoding=japan
-endif
-
-" 以下は最後に書くと機能するっぽい
-" 改行コードの自動認識
-set fileformats=unix,dos,mac
-set whichwrap=b,s,h,l,<,>,[,]
