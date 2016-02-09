@@ -7,7 +7,7 @@ set t_Co=256
 set nocompatible
 " 行頭の余白内でTabを打ち込むと'shiftwidth'の数だけインデントする
 set smarttab
-" 改行コードの自動認識
+" 改- 行コードの自動認識
 set fileformats=unix,dos,mac
 " ビープ音を鳴らさない
 set vb t_vb=
@@ -243,6 +243,9 @@ call plug#begin('~/.vim/plugged')
   Plug 'davidhalter/jedi-vim', {'for': 'python'}
   Plug 'jmcantrell/vim-virtualenv', {'for': 'python'}
   Plug 'hynek/vim-python-pep8-indent', {'for': 'python'}
+  Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
+  Plug 'kannokanno/previm', {'for': 'markdown', 'on': 'PrevimOpen'}
+  Plug 'tyru/open-browser.vim', {'for': 'markdown', 'on': 'PrevimOpen'}
 call plug#end()
 
 " Unite.vim
@@ -346,3 +349,6 @@ nnoremap <silent><Leader>i :<C-u>IndentLinesToggle<CR>
 " jedi-vim
 let g:jedi#rename_command = "<Leader>R"
 
+" vim-markdown
+let g:markdown_no_default_key_mappings = 1
+let g:vim_markdown_folding_disabled = 1
