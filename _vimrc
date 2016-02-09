@@ -240,6 +240,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'kana/vim-operator-replace'
   Plug 'tyru/caw.vim'
   Plug 'Yggdroot/indentLine'
+  Plug 'tpope/vim-fugitive', {'on': ['Gstatus', 'Gcommit', 'Gwrite', 'Gdiff', 'Gblame', 'Git', 'Ggrep']}
   Plug 'davidhalter/jedi-vim', {'for': 'python'}
   Plug 'jmcantrell/vim-virtualenv', {'for': 'python'}
   Plug 'hynek/vim-python-pep8-indent', {'for': 'python'}
@@ -273,7 +274,8 @@ nnoremap <Leader>vb :<C-u>VimFilerBufferDir<CR>
 nnoremap <Leader>vt :<C-u>VimFilerBufferDir -tab<CR>
 
 " vim-quickrun
-nnoremap <silent> <Leader>r :QuickRun<CR>
+nnoremap <silent> <Leader>q <Nop><CR>
+nnoremap <silent> <Leader>qr :QuickRun<CR>
 let g:quickrun_config = get(g:, 'quickrun_config', {})
 let g:quickrun_config._ = {
       \ 'runner'    : 'vimproc',
@@ -343,6 +345,13 @@ let g:indentLine_color_term = 239
 let g:indentLine_faster = 1
 nnoremap <silent><Leader>i :<C-u>IndentLinesToggle<CR>
 
+" vim-fugitive
+nnoremap <Leader>gs :<C-u>Gstatus<CR>
+nnoremap <Leader>gc :<C-u>Gcommit -v<CR>
+nnoremap <Leader>ga :<C-u>Gwrite<CR>
+nnoremap <Leader>gd :<C-u>Gdiff<CR>
+nnoremap <Leader>gb :<C-u>Gblame<CR>
+
 " jedi-vim
-let g:jedi#rename_command = "<Leader>R"
+let g:jedi#rename_command = "<Leader>jr"
 
