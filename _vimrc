@@ -240,7 +240,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'kana/vim-operator-replace'
   Plug 'tyru/caw.vim'
   Plug 'Yggdroot/indentLine'
-  Plug 'tpope/vim-fugitive', {'on': ['Gstatus', 'Gcommit', 'Gwrite', 'Gdiff', 'Gblame', 'Git', 'Ggrep']}
+  Plug 'tpope/vim-fugitive'
   Plug 'davidhalter/jedi-vim', {'for': 'python'}
   Plug 'jmcantrell/vim-virtualenv', {'for': 'python'}
   Plug 'hynek/vim-python-pep8-indent', {'for': 'python'}
