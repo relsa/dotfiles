@@ -146,6 +146,7 @@ autocmd BufWinEnter,ColorScheme,Syntax * call s:hl_zenkaku()
 " ハイライトをちょっと修正
 function! s:my_highlight()
     highlight! CursorLine ctermbg=53
+    highlight! link Operator Statement
     highlight! Search cterm=BOLD ctermbg=125 ctermfg=255
 endfunction
 autocmd BufWinEnter,ColorScheme * call s:my_highlight()
@@ -233,6 +234,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'tpope/vim-surround'
   Plug 'easymotion/vim-easymotion'
   Plug 'haya14busa/incsearch.vim'
+  Plug 'haya14busa/vim-asterisk'
   Plug 'rhysd/clever-f.vim'
   Plug 'kana/vim-operator-user'
   Plug 'kana/vim-operator-replace'
@@ -240,6 +242,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'Yggdroot/indentLine'
   Plug 'davidhalter/jedi-vim', {'for': 'python'}
   Plug 'jmcantrell/vim-virtualenv', {'for': 'python'}
+  Plug 'hynek/vim-python-pep8-indent', {'for': 'python'}
 call plug#end()
 
 " Unite.vim
@@ -308,16 +311,17 @@ map <Leader>k <Plug>(easymotion-k)
 map <Leader>l <Plug>(easymotion-lineforward)
 
 " incsearch.vim
+" vim-asterisk
 let g:incsearch#auto_nohlsearch = 1
 map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
 map n  <Plug>(incsearch-nohl-n)zz
 map N  <Plug>(incsearch-nohl-N)zz
-map *  <Plug>(incsearch-nohl-*)
-map #  <Plug>(incsearch-nohl-#)
-map g* <Plug>(incsearch-nohl-g*)
-map g# <Plug>(incsearch-nohl-g#)
+map *  <Plug>(incsearch-nohl0)<Plug>(asterisk-z*)
+map g* <Plug>(incsearch-nohl0)<Plug>(asterisk-gz*)
+map #  <Plug>(incsearch-nohl0)<Plug>(asterisk-z#)
+map g# <Plug>(incsearch-nohl0)<Plug>(asterisk-gz#)
 
 " clever-f.vim
 let g:clever_f_not_overwrites_standard_mappings = 1
