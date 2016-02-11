@@ -53,6 +53,10 @@ autoload -Uz compinit; compinit -u
 # URLを自動エスケープ
 # auto-fuと競合する
 autoload -Uz url-quote-magic; zle -N self-insert url-quote-magic
+# エディタでコマンドを編集
+export EDITOR='vim'
+autoload -Uz edit-command-line; zle -N edit-command-line
+bindkey '^x^e' edit-command-line
 # TABで順に補完候補を切り替える
 setopt auto_menu
 # 補完候補を一覧表示
