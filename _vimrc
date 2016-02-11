@@ -19,22 +19,14 @@ if exists('&ambiwidth')
 endif
 set foldmethod=manual
 
-" 矩形選択で連番入力
-" 数字を選んで co と入力
-nnoremap <silent> co :ContinuousNumber <C-a><CR>
-vnoremap <silent> co :ContinuousNumber <C-a><CR>
-command! -count -nargs=1 ContinuousNumber let c = col('.')|for n in range(1, <count>?<count>-line('.'):1)|exec 'normal! j' . n . <q-args>|call cursor('.', c)|endfor
-
-" ESCを二回押すことでハイライトを消す
-nmap <silent> <Esc><Esc> :<C-u>nohlsearch<CR>
-" vを二回で行末まで選択
-vnoremap v $h
-" Yで行末までコピー
-nnoremap Y y$
-
 "-----------------------------------------------------
 " キーバインド変更
 "-----------------------------------------------------
+nnoremap j gj
+nnoremap k gk
+nnoremap <C-f> <C-f>zz
+nnoremap <C-b> <C-b>zz
+
 inoremap  <C-a> <Home>
 inoremap  <C-e> <End>
 inoremap  <C-b> <Left>
@@ -46,6 +38,8 @@ inoremap  <C-u> <C-o>d0
 inoremap  <C-k> <C-o>d$
 
 " <Leader>
+nnoremap ; <Nop>
+xnoremap ; <Nop>
 let mapleader = ';'
 
 "-----------------------------------------------------
@@ -80,130 +74,6 @@ endif
 " ファイルの上書き前にバックアップ作成。成功したら削除
 set writebackup
 
-"-----------------------------------------------------
-" 検索関係
-"-----------------------------------------------------
-" コマンド、検索パターンを100個まで履歴に残す
-set history=1000
-" 検索の時に大文字小文字を区別しない
-set ignorecase
-" 検索の時に大文字が含まれている場合は区別して検索する
-set smartcase
-" 最後まで検索したら先頭に戻らない
-set nowrapscan
-" インクリメンタルサーチを使う
-set incsearch
-" 検索後にジャンプした際に検索単語を画面中央に持ってくる -> incsearch
-" nnoremap n nzz
-" nnoremap N Nzz
-" nnoremap * *zz
-" nnoremap # #zz
-" nnoremap g* g*zz
-" nnoremap g# g#zz
-" 対応括弧に'<'と'>'のペアを追加
-set matchpairs& matchpairs+=<:>
-
-"-----------------------------------------------------
-" 表示関係
-"-----------------------------------------------------
-" タイトルをウィンドウ枠に表示する
-set title
-" 行番号を表示する
-set number
-" ルーラーを表示
-set ruler
-" 入力中のコマンドをステータスに表示する
-set showcmd
-" ステータスラインを常に表示
-set laststatus=2
-" 括弧入力時に対応する括弧を表示
-set showmatch
-" 検索結果文字列のハイライトを有効にする
-set hlsearch | nohlsearch
-" コマンドライン補完を拡張モードにする
-set wildmenu
-" 行末から次の行へ移るようにする
-set whichwrap=b,s,h,l,<,>,[,]
-set backspace=indent,eol,start
-" 入力されているテキストの最大幅を無効にする
-set textwidth=0
-" ウィンドウの幅より長い行は折り返して、次の行に続けて表示する
-set wrap
-" 現在の行をハイライト
-set cursorline
-" 行末と全角スペースをハイライト
-function! s:hl_trailing_spaces()
-    highlight! link TrailingSpaces Error
-    syntax match TrailingSpaces containedin=ALL /\s\+$/
-endfunction
-function! s:hl_zenkaku()
-    highlight! link ZenkakuSpace Error
-    syntax match ZenkakuSpace containedin=ALL /　/
-endfunction
-autocmd BufWinEnter,ColorScheme,Syntax * call s:hl_trailing_spaces()
-autocmd BufWinEnter,ColorScheme,Syntax * call s:hl_zenkaku()
-
-" ハイライトをちょっと修正
-function! s:my_highlight()
-    highlight! CursorLine ctermbg=53
-    highlight! link Operator Statement
-    highlight! Search cterm=BOLD ctermbg=125 ctermfg=255
-endfunction
-autocmd BufWinEnter,ColorScheme * call s:my_highlight()
-
-" シンタックスハイライトを有効にする
-syntax enable
-colorscheme jellybeans
-
-"-----------------------------------------------------
-" 移動
-"-----------------------------------------------------
-nnoremap j gj
-nnoremap k gk
-nnoremap <C-f> <C-f>zz
-nnoremap <C-b> <C-b>zz
-
-"-----------------------------------------------------
-" インデント
-"-----------------------------------------------------
-" ファイルごとに設定を変える
-filetype plugin indent on
-" タブが対応する空白の数
-set tabstop=4
-" タブやバックスペースの使用等の編集操作をするときに、タブが対応する空白の数
-set softtabstop=4
-" インデントの各段階に使われる空白の数
-set shiftwidth=4
-" タブを挿入するとき、代わりに空白を使う
-set expandtab
-" インデントをオプションの'shiftwidth'の値の倍数に丸める
-set shiftround
-" オートインデントを有効にする
-set autoindent
-" 新しい行を作ったときに高度な自動インデントを行う。 'cindent'
-" がオンのときは、'smartindent' をオンにしても効果はない。
-set smartindent
-
-"----------------------------------------------------
-"" 国際化関係
-"----------------------------------------------------
-" 文字コードの設定
-" fileencodingsの設定ではencodingの値を一番最後に記述する
-set encoding=utf-8
-"set encoding=japan
-set termencoding=utf-8
-set fileencoding=utf-8
-set fileencodings=utf-8,iso-2022-jp,cp932,sjis,euc-jp
-
-"----------------------------------------------------
-" その他
-"----------------------------------------------------
-
-" 入力モード中に素早くjjと入力した場合はESCとみなす
-inoremap jj <Esc>
-cnoremap jj <Esc>
-" w!! でスーパーユーザーとして保存（sudoが使える環境限定）
-cnoreabbrev w!! w !sudo tee > /dev/null %
 
 "-----------------------------------------------------
 " プラグイン管理
@@ -241,12 +111,19 @@ call plug#begin('~/.vim/plugged')
   Plug 'tyru/caw.vim'
   Plug 'Yggdroot/indentLine'
   Plug 'tpope/vim-fugitive'
+  Plug 'sjl/gundo.vim', {'on': 'GundoToggle'}
   Plug 'davidhalter/jedi-vim', {'for': 'python'}
   Plug 'jmcantrell/vim-virtualenv', {'for': 'python'}
   Plug 'hynek/vim-python-pep8-indent', {'for': 'python'}
   Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
   Plug 'kannokanno/previm', {'for': 'markdown', 'on': 'PrevimOpen'}
-  Plug 'tyru/open-browser.vim', {'for': 'markdown', 'on': 'PrevimOpen'}
+  Plug 'tyru/open-browser.vim', {'on': ['OpenBrowserSmartSearch', 'OpenBrowser']}
+
+  Plug 'tomasr/molokai'
+  Plug 'nanotech/jellybeans.vim'
+  Plug 'w0ng/vim-hybrid'
+  Plug 'vim-scripts/twilight'
+
 call plug#end()
 
 " Unite.vim
@@ -323,10 +200,10 @@ map ?  <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
 map n  <Plug>(incsearch-nohl-n)zz
 map N  <Plug>(incsearch-nohl-N)zz
-map *  <Plug>(incsearch-nohl0)<Plug>(asterisk-z*)
-map g* <Plug>(incsearch-nohl0)<Plug>(asterisk-gz*)
-map #  <Plug>(incsearch-nohl0)<Plug>(asterisk-z#)
-map g# <Plug>(incsearch-nohl0)<Plug>(asterisk-gz#)
+map *  <Plug>(incsearch-nohl0)<Plug>(asterisk-z*)zz
+map g* <Plug>(incsearch-nohl0)<Plug>(asterisk-gz*)zz
+map #  <Plug>(incsearch-nohl0)<Plug>(asterisk-z#)zz
+map g# <Plug>(incsearch-nohl0)<Plug>(asterisk-gz#)zz
 
 " clever-f.vim
 let g:clever_f_not_overwrites_standard_mappings = 1
@@ -355,9 +232,149 @@ nnoremap <Leader>ga :<C-u>Gwrite<CR>
 nnoremap <Leader>gd :<C-u>Gdiff<CR>
 nnoremap <Leader>gb :<C-u>Gblame<CR>
 
+" gundo.vim
+nnoremap <Leader>gu :<C-u>GundoToggle<CR>
+
 " jedi-vim
-let g:jedi#rename_command = "<Leader>jr"
+let g:jedi#rename_command = '<Leader>R'
+let g:jedi#goto_assignments_command = '<Leader>G'
+let g:jedi#completions_command = '<C-N>'
+
 
 " vim-markdown
 let g:markdown_no_default_key_mappings = 1
 let g:vim_markdown_folding_disabled = 1
+
+"-----------------------------------------------------
+" 表示関係
+"-----------------------------------------------------
+" タイトルをウィンドウ枠に表示する
+set title
+" 行番号を表示する
+set number
+" ルーラーを表示
+set ruler
+" 入力中のコマンドをステータスに表示する
+set showcmd
+" ステータスラインを常に表示
+set laststatus=2
+" 括弧入力時に対応する括弧を表示
+set showmatch
+" 検索結果文字列のハイライトを有効にする
+set hlsearch | nohlsearch
+" コマンドライン補完を拡張モードにする
+set wildmenu
+" 行末から次の行へ移るようにする
+set whichwrap=b,s,h,l,<,>,[,]
+set backspace=indent,eol,start
+" 入力されているテキストの最大幅を無効にする
+set textwidth=0
+" ウィンドウの幅より長い行は折り返して、次の行に続けて表示する
+set wrap
+" 現在の行をハイライト
+set cursorline
+" 行末と全角スペースをハイライト
+function! s:hl_trailing_spaces()
+    highlight! link TrailingSpaces Error
+    syntax match TrailingSpaces containedin=ALL /\s\+$/
+endfunction
+function! s:hl_zenkaku()
+    highlight! link ZenkakuSpace Error
+    syntax match ZenkakuSpace containedin=ALL /　/
+endfunction
+autocmd BufWinEnter,ColorScheme,Syntax * call s:hl_trailing_spaces()
+autocmd BufWinEnter,ColorScheme,Syntax * call s:hl_zenkaku()
+
+" 文末の空白を除去
+function! s:remove_trailing_white_spaces()
+    let pos = winsaveview()
+    silent! execute '%s/\s\+$//g'
+    call winrestview(pos)
+endfunction
+command! RemoveTrailingWhiteSpaces call <SID>remove_trailing_white_spaces()
+command! -range=% TrimSpace  <line1>,<line2>s!\s*$!!g | nohlsearch
+command! -range=% RemoveTrailM  <line1>,<line2>s!\r$!!g | nohlsearch
+
+let g:jellybeans_overrides = {
+\    'Search': {'attr': 'BOLD',
+\               '256ctermfg': '255', '256ctermbg': '125'}
+\ }
+
+set background=dark
+colorscheme jellybeans
+syntax enable
+
+"-----------------------------------------------------
+" 検索関係
+"-----------------------------------------------------
+" コマンド、検索パターンを100個まで履歴に残す
+set history=1000
+" 検索の時に大文字小文字を区別しない
+set ignorecase
+" 検索の時に大文字が含まれている場合は区別して検索する
+set smartcase
+" 最後まで検索したら先頭に戻らない
+set nowrapscan
+" インクリメンタルサーチを使う
+set incsearch
+" 検索後にジャンプした際に検索単語を画面中央に持ってくる -> incsearch
+" nnoremap n nzz
+" nnoremap N Nzz
+" nnoremap * *zz
+" nnoremap # #zz
+" nnoremap g* g*zz
+" nnoremap g# g#zz
+" 対応括弧に'<'と'>'のペアを追加
+set matchpairs& matchpairs+=<:>
+
+"-----------------------------------------------------
+" インデント
+"-----------------------------------------------------
+" ファイルごとに設定を変える
+filetype plugin indent on
+" タブが対応する空白の数
+set tabstop=4
+" タブやバックスペースの使用等の編集操作をするときに、タブが対応する空白の数
+set softtabstop=4
+" インデントの各段階に使われる空白の数
+set shiftwidth=4
+" タブを挿入するとき、代わりに空白を使う
+set expandtab
+" インデントをオプションの'shiftwidth'の値の倍数に丸める
+set shiftround
+" オートインデントを有効にする
+set autoindent
+" 新しい行を作ったときに高度な自動インデントを行う。 'cindent'
+" がオンのときは、'smartindent' をオンにしても効果はない。
+set smartindent
+
+"----------------------------------------------------
+"" 国際化関係
+"----------------------------------------------------
+" 文字コードの設定
+" fileencodingsの設定ではencodingの値を一番最後に記述する
+set encoding=utf-8
+"set encoding=japan
+set termencoding=utf-8
+set fileencoding=utf-8
+set fileencodings=utf-8,iso-2022-jp,cp932,sjis,euc-jp
+
+"----------------------------------------------------
+" その他
+"----------------------------------------------------
+
+" 入力モード中に素早くjjと入力した場合はESCとみなす
+inoremap jj <Esc>
+cnoremap jj <Esc>
+
+" w!! でスーパーユーザーとして保存（sudoが使える環境限定）
+cnoreabbrev w!! w !sudo tee > /dev/null %
+
+" 矩形選択で連番入力
+" 数字を選んで co と入力
+nnoremap <silent> co :ContinuousNumber <C-a><CR>
+vnoremap <silent> co :ContinuousNumber <C-a><CR>
+command! -count -nargs=1 ContinuousNumber let c = col('.')|for n in range(1, <count>?<count>-line('.'):1)|exec 'normal! j' . n . <q-args>|call cursor('.', c)|endfor
+
+" ESCを二回押すことでハイライトを消す
+nmap <silent> <Esc><Esc> :<C-u>nohlsearch<CR>
