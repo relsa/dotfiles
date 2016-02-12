@@ -92,6 +92,7 @@ call plug#begin('~/.vim/plugged')
 
   Plug 'Shougo/unite.vim'
   Plug 'Shougo/neomru.vim'
+  Plug 'kmnk/vim-unite-giti'
   Plug 'Shougo/neocomplete.vim'
   Plug 'Shougo/neosnippet'
   Plug 'Shougo/neosnippet-snippets'
@@ -101,13 +102,15 @@ call plug#begin('~/.vim/plugged')
   Plug 'osyo-manga/vim-watchdogs'
   Plug 'thinca/vim-quickrun'
   Plug 'itchyny/lightline.vim'
-  Plug 'tpope/vim-surround'
   Plug 'easymotion/vim-easymotion'
   Plug 'haya14busa/incsearch.vim'
   Plug 'haya14busa/vim-asterisk'
   Plug 'rhysd/clever-f.vim'
+  Plug 'kana/vim-textobj-user'
+  Plug 'kana/vim-textobj-indent'
   Plug 'kana/vim-operator-user'
   Plug 'kana/vim-operator-replace'
+  Plug 'rhysd/vim-operator-surround'
   Plug 'tyru/caw.vim'
   Plug 'Yggdroot/indentLine'
   Plug 'tpope/vim-fugitive'
@@ -129,13 +132,15 @@ call plug#end()
 " Unite.vim
 nnoremap [unite] <Nop>
 xnoremap [unite] <Nop>
-nmap <Leader>u [unite]
-xmap <Leader>u [unite]
+nmap <Space>u [unite]
+xmap <Space>u [unite]
 nnoremap <silent> [unite]b :<C-u>Unite buffer<CR>
 nnoremap <silent> [unite]f :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
 nnoremap <silent> [unite]r :<C-u>Unite -buffer-name=register register<CR>
 nnoremap <silent> [unite]m :<C-u>Unite file_mru<CR>
 nnoremap <silent> [unite]u :<C-u>Unite buffer file_mru<CR>
+nnoremap <silent> [unite]gs :<C-u>Unite giti/status<CR>
+nnoremap <silent> [unite]gb :<C-u>Unite giti/branch<CR>
 
 let g:neocomplete#enable_at_startup = 1
 
@@ -149,12 +154,15 @@ smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
             \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
 let g:vimfiler_as_default_explorer = 1
-nnoremap <Leader>vf :<C-u>VimFiler -buffer-name=explorer -split -simple -winwidth=35 -toggle -no-quit<CR>
-nnoremap <Leader>vb :<C-u>VimFilerBufferDir<CR>
-nnoremap <Leader>vt :<C-u>VimFilerBufferDir -tab<CR>
+nnoremap [filer] <Nop>
+xnoremap [filer] <Nop>
+nmap <Space>f [filer]
+xmap <Space>f [filer]
+nnoremap <silent> [filer]f :<C-u>VimFilerBufferDir<CR>
+nnoremap <silent> [filer]t :<C-u>VimFilerBufferDir -tab<CR>
 
 " vim-quickrun
-nnoremap <silent> <Leader>q <Nop><CR>
+nnoremap <silent> <Leader>r <Nop><CR>
 nnoremap <silent> <Leader>qr :QuickRun<CR>
 let g:quickrun_config = get(g:, 'quickrun_config', {})
 let g:quickrun_config._ = {
@@ -216,6 +224,14 @@ nmap F <Plug>(clever-f-F)
 nmap R <Plug>(operator-replace)
 vmap R <Plug>(operator-replace)
 
+" vim-operator-surround
+map <silent>ys <Plug>(operator-surround-append)
+map <silent>ds <Plug>(operator-surround-delete)
+map <silent>cs <Plug>(operator-surround-replace)
+nmap <silent>yss V<Plug>(operator-surround-append)
+nmap <silent>dss V<Plug>(operator-surround-delete)
+nmap <silent>css V<Plug>(operator-surround-replace)
+
 " caw.vim
 nmap <Leader>c <Plug>(caw:i:toggle)
 vmap <Leader>c <Plug>(caw:i:toggle)
@@ -223,23 +239,26 @@ vmap <Leader>c <Plug>(caw:i:toggle)
 " indentLine
 let g:indentLine_color_term = 239
 let g:indentLine_faster = 1
-nnoremap <silent><Leader>i :<C-u>IndentLinesToggle<CR>
+nnoremap <silent> <Leader>i :<C-u>IndentLinesToggle<CR>
 
 " vim-fugitive
-nnoremap <Leader>gs :<C-u>Gstatus<CR>
-nnoremap <Leader>gc :<C-u>Gcommit -v<CR>
-nnoremap <Leader>ga :<C-u>Gwrite<CR>
-nnoremap <Leader>gd :<C-u>Gdiff<CR>
-nnoremap <Leader>gb :<C-u>Gblame<CR>
+nnoremap [fugitive] <Nop>
+xnoremap [fugitive] <Nop>
+nmap <Space>g [fugitive]
+xmap <Space>g [fugitive]
+nnoremap [fugitive]s :<C-u>Gstatus<CR>
+nnoremap [fugitive]c :<C-u>Gcommit -v<CR>
+nnoremap [fugitive]a :<C-u>Gwrite<CR>
+nnoremap [fugitive]d :<C-u>Gdiff<CR>
+nnoremap [fugitive]b :<C-u>Gblame<CR>
 
 " gundo.vim
-nnoremap <Leader>gu :<C-u>GundoToggle<CR>
+nnoremap <Leader>g :<C-u>GundoToggle<CR>
 
 " jedi-vim
 let g:jedi#rename_command = '<Leader>R'
 let g:jedi#goto_assignments_command = '<Leader>G'
 let g:jedi#completions_command = '<C-N>'
-
 
 " vim-markdown
 let g:markdown_no_default_key_mappings = 1
