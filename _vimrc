@@ -93,6 +93,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'Shougo/unite.vim'
   Plug 'Shougo/neomru.vim'
   Plug 'kmnk/vim-unite-giti'
+  Plug 'Shougo/unite-outline'
   Plug 'Shougo/neocomplete.vim'
   Plug 'Shougo/neosnippet'
   Plug 'Shougo/neosnippet-snippets'
@@ -141,6 +142,7 @@ nnoremap <silent> [unite]m :<C-u>Unite file_mru<CR>
 nnoremap <silent> [unite]u :<C-u>Unite buffer file_mru<CR>
 nnoremap <silent> [unite]gs :<C-u>Unite giti/status<CR>
 nnoremap <silent> [unite]gb :<C-u>Unite giti/branch<CR>
+nnoremap <silent> [unite]o :<C-u>Unite outline<CR>
 
 let g:neocomplete#enable_at_startup = 1
 
