@@ -22,8 +22,19 @@ set foldmethod=manual
 "-----------------------------------------------------
 " キーバインド変更
 "-----------------------------------------------------
+" <Leader>
+nnoremap ; <Nop>
+xnoremap ; <Nop>
+let mapleader = ';'
+
 nnoremap j gj
 nnoremap k gk
+
+nnoremap <Leader>J J
+nnoremap J <Nop>
+nnoremap <Leader>K K
+nnoremap K <Nop>
+
 nnoremap <C-f> <C-f>zz
 nnoremap <C-b> <C-b>zz
 
@@ -36,11 +47,6 @@ inoremap  <C-n> <Down>
 inoremap  <C-d> <Del>
 inoremap  <C-u> <C-o>d0
 inoremap  <C-k> <C-o>d$
-
-" <Leader>
-nnoremap ; <Nop>
-xnoremap ; <Nop>
-let mapleader = ';'
 
 "-----------------------------------------------------
 " ファイル操作関連
@@ -127,10 +133,13 @@ call plug#begin('~/.vim/plugged')
   Plug 'nanotech/jellybeans.vim'
   Plug 'w0ng/vim-hybrid'
   Plug 'vim-scripts/twilight'
+  Plug 'zeis/vim-kolor'
+  Plug 'mhinz/vim-janah'
 
 call plug#end()
 
 " Unite.vim
+let g:unite_enable_start_insert = 1
 nnoremap [unite] <Nop>
 xnoremap [unite] <Nop>
 nmap <Space>u [unite]
@@ -197,10 +206,8 @@ omap t <Plug>(easymotion-tl)
 xmap t <Plug>(easymotion-tl)
 omap T <Plug>(easymotion-Tl)
 xmap T <Plug>(easymotion-Tl)
-map <Leader>h <Plug>(easymotion-linebackward)
-map <Leader>j <Plug>(easymotion-j)
-map <Leader>k <Plug>(easymotion-k)
-map <Leader>l <Plug>(easymotion-lineforward)
+map J <Plug>(easymotion-j)
+map K <Plug>(easymotion-k)
 
 " incsearch.vim
 " vim-asterisk
@@ -321,8 +328,8 @@ let g:jellybeans_overrides = {
 \               '256ctermfg': '255', '256ctermbg': '125'}
 \ }
 
-set background=dark
 colorscheme jellybeans
+set background=dark
 syntax enable
 
 "-----------------------------------------------------
