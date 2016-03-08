@@ -1,4 +1,5 @@
 *.local
+_vim/dein
 _vim/plugged
 _vim/autoload/plug.vim*
 _zplug/*

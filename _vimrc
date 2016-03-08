@@ -84,194 +84,189 @@ set writebackup
 "-----------------------------------------------------
 " プラグイン管理
 "-----------------------------------------------------
-if has('vim_starting')
-    set rtp+=~/.vim/plugged/vim-plug
-    if !isdirectory(expand('~/.vim/plugged/vim-plug'))
-        echo 'install vim-plug...'
-        call system('mkdir -p ~/.vim/plugged/vim-plug')
-        call system('git clone https://github.com/junegunn/vim-plug.git ~/.vim/plugged/vim-plug/autoload')
-    end
+
+" dein.vim
+let s:dein_dir = expand('~/.vim/dein')
+let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
+
+if !isdirectory(s:dein_repo_dir)
+  execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
 endif
 
-call plug#begin('~/.vim/plugged')
-  Plug 'junegunn/vim-plug', {'dir': '~/.vim/plugged/vim-plug/autoload'}
+execute 'set runtimepath^=' . s:dein_repo_dir
 
-  Plug 'Shougo/unite.vim'
-  Plug 'Shougo/neomru.vim'
-  Plug 'kmnk/vim-unite-giti'
-  Plug 'Shougo/unite-outline'
-  Plug 'Shougo/neocomplete.vim'
-  Plug 'Shougo/neosnippet'
-  Plug 'Shougo/neosnippet-snippets'
-  Plug 'Shougo/vimproc.vim', {'do': 'make'}
-  Plug 'Shougo/vimfiler'
-  Plug 'osyo-manga/shabadou.vim'
-  Plug 'osyo-manga/vim-watchdogs'
-  Plug 'thinca/vim-quickrun'
-  Plug 'itchyny/lightline.vim'
-  Plug 'easymotion/vim-easymotion'
-  Plug 'haya14busa/incsearch.vim'
-  Plug 'haya14busa/vim-asterisk'
-  Plug 'rhysd/clever-f.vim'
-  Plug 'kana/vim-textobj-user'
-  Plug 'kana/vim-textobj-indent'
-  Plug 'kana/vim-operator-user'
-  Plug 'kana/vim-operator-replace'
-  Plug 'rhysd/vim-operator-surround'
-  Plug 'tyru/caw.vim'
-  Plug 'Yggdroot/indentLine'
-  Plug 'tpope/vim-fugitive'
-  Plug 'sjl/gundo.vim', {'on': 'GundoToggle'}
-  Plug 'davidhalter/jedi-vim', {'for': 'python'}
-  Plug 'jmcantrell/vim-virtualenv', {'for': 'python'}
-  Plug 'hynek/vim-python-pep8-indent', {'for': 'python'}
-  Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
-  Plug 'kannokanno/previm', {'for': 'markdown', 'on': 'PrevimOpen'}
-  Plug 'tyru/open-browser.vim', {'on': ['OpenBrowserSmartSearch', 'OpenBrowser']}
 
-  Plug 'tomasr/molokai'
-  Plug 'nanotech/jellybeans.vim'
-  Plug 'w0ng/vim-hybrid'
-  Plug 'vim-scripts/twilight'
-  Plug 'zeis/vim-kolor'
-  Plug 'mhinz/vim-janah'
+call dein#begin(s:dein_dir)
 
-call plug#end()
+let s:toml_path = '~/.vim/dein/dein.toml'
+let s:toml_lazy_path = '~/.vim/dein/deinlazy.toml'
 
-" Unite.vim
-let g:unite_enable_start_insert = 1
-nnoremap [unite] <Nop>
-xnoremap [unite] <Nop>
-nmap <Space>u [unite]
-xmap <Space>u [unite]
-nnoremap <silent> [unite]b :<C-u>Unite buffer<CR>
-nnoremap <silent> [unite]f :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
-nnoremap <silent> [unite]r :<C-u>Unite -buffer-name=register register<CR>
-nnoremap <silent> [unite]m :<C-u>Unite file_mru<CR>
-nnoremap <silent> [unite]u :<C-u>Unite buffer file_mru<CR>
-nnoremap <silent> [unite]gs :<C-u>Unite giti/status<CR>
-nnoremap <silent> [unite]gb :<C-u>Unite giti/branch<CR>
-nnoremap <silent> [unite]o :<C-u>Unite outline<CR>
+if dein#load_cache([expand('<sfile>', s:toml_path, s:toml_lazy_path)])
+  call dein#load_toml(s:toml_path, {'lazy': 0})
+  call dein#load_toml(s:toml_lazy_path, {'lazy': 1})
+  call dein#save_cache()
+endif
 
-let g:neocomplete#enable_at_startup = 1
+call dein#end()
 
-let g:neosnippet#snippets_directory='~/.vim/plugged/vim-snippets/snippets'
-imap <C-k> <Plug>(neosnippet_expand_or_jump)
-smap <C-k> <Plug>(neosnippet_expand_or_jump)
-xmap <C-k> <Plug>(neosnippet_expand_target)
-imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-            \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-            \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+if dein#check_install()
+  call dein#install()
+endif
 
-let g:vimfiler_as_default_explorer = 1
-nnoremap [filer] <Nop>
-xnoremap [filer] <Nop>
-nmap <Space>f [filer]
-xmap <Space>f [filer]
-nnoremap <silent> [filer]f :<C-u>VimFilerBufferDir<CR>
-nnoremap <silent> [filer]t :<C-u>VimFilerBufferDir -tab<CR>
+if dein#tap('vim-quickrun')
+  let g:unite_enable_start_insert = 1
+  nnoremap [unite] <Nop>
+  xnoremap [unite] <Nop>
+  nmap <Space>u [unite]
+  xmap <Space>u [unite]
+  nnoremap <silent> [unite]b :<C-u>Unite buffer<CR>
+  nnoremap <silent> [unite]f :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
+  nnoremap <silent> [unite]r :<C-u>Unite -buffer-name=register register<CR>
+  nnoremap <silent> [unite]m :<C-u>Unite file_mru<CR>
+  nnoremap <silent> [unite]u :<C-u>Unite buffer file_mru<CR>
+  " nnoremap <silent> [unite]gs :<C-u>Unite giti/status<CR>
+  " nnoremap <silent> [unite]gb :<C-u>Unite giti/branch<CR>
+  nnoremap <silent> [unite]o :<C-u>Unite outline<CR>
+endif
 
-" vim-quickrun
-nnoremap <silent> <Leader>r <Nop><CR>
-nnoremap <silent> <Leader>qr :QuickRun<CR>
-let g:quickrun_config = get(g:, 'quickrun_config', {})
-let g:quickrun_config._ = {
-      \ 'runner'    : 'vimproc',
-      \ 'runner/vimproc/updatetime' : 60,
-      \ 'outputter' : 'error',
-      \ 'outputter/error/success' : 'buffer',
-      \ 'outputter/error/error'   : 'quickfix',
-      \ 'outputter/buffer/split'  : ':rightbelow 8sp',
-      \ 'outputter/buffer/close_on_empty' : 1,
-      \ }
-nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
+if dein#tap('neocomplete.vim')
+  let g:neocomplete#enable_at_startup = 1
+endif
 
-" lightline.vim
-let g:lightline = {
-      \ 'colorscheme': 'jellybeans',
-      \ }
+if dein#tap('neosnippet.vim')
+  let g:neosnippet#snippets_directory='~/.vim/dein/vim-snippets/snippets'
+  imap <C-k> <Plug>(neosnippet_expand_or_jump)
+  smap <C-k> <Plug>(neosnippet_expand_or_jump)
+  xmap <C-k> <Plug>(neosnippet_expand_target)
+  imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+              \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+  smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+              \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+endif
 
-" vim-easymotion
-let g:EasyMotion_do_mapping = 0
-let g:EasyMotion_do_shade = 0
-let g:EasyMotion_smartcase = 1
-let g:EasyMotion_enter_jump_first = 1
-nmap s <Plug>(easymotion-overwin-f2)
-omap f <Plug>(easymotion-bd-fl)
-xmap f <Plug>(easymotion-bd-fl)
-omap F <Plug>(easymotion-Fl)
-xmap F <Plug>(easymotion-Fl)
-omap t <Plug>(easymotion-tl)
-xmap t <Plug>(easymotion-tl)
-omap T <Plug>(easymotion-Tl)
-xmap T <Plug>(easymotion-Tl)
-map J <Plug>(easymotion-j)
-map K <Plug>(easymotion-k)
+if dein#tap('vimfiler.vim')
+  let g:vimfiler_as_default_explorer = 1
+  nnoremap [filer] <Nop>
+  xnoremap [filer] <Nop>
+  nmap <Space>f [filer]
+  xmap <Space>f [filer]
+  nnoremap <silent> [filer]f :<C-u>VimFilerBufferDir<CR>
+  nnoremap <silent> [filer]t :<C-u>VimFilerBufferDir -tab<CR>
+endif
 
-" incsearch.vim
-" vim-asterisk
-let g:incsearch#auto_nohlsearch = 1
-map /  <Plug>(incsearch-forward)
-map ?  <Plug>(incsearch-backward)
-map g/ <Plug>(incsearch-stay)
-map n  <Plug>(incsearch-nohl-n)zz
-map N  <Plug>(incsearch-nohl-N)zz
-map *  <Plug>(incsearch-nohl0)<Plug>(asterisk-z*)zz
-map g* <Plug>(incsearch-nohl0)<Plug>(asterisk-gz*)zz
-map #  <Plug>(incsearch-nohl0)<Plug>(asterisk-z#)zz
-map g# <Plug>(incsearch-nohl0)<Plug>(asterisk-gz#)zz
+if dein#tap('vim-quickrun')
+ nnoremap <silent> <Leader>r <Nop><CR>
+ nnoremap <silent> <Leader>qr :QuickRun<CR>
+ let g:quickrun_config = get(g:, 'quickrun_config', {})
+ let g:quickrun_config._ = {
+       \ 'runner'    : 'vimproc',
+       \ 'runner/vimproc/updatetime' : 60,
+       \ 'outputter' : 'error',
+       \ 'outputter/error/success' : 'buffer',
+       \ 'outputter/error/error'   : 'quickfix',
+       \ 'outputter/buffer/split'  : ':rightbelow 8sp',
+       \ 'outputter/buffer/close_on_empty' : 1,
+       \ }
+ nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
+endif
+
+if dein#tap('lightline.vim')
+  let g:lightline = {
+       \ 'colorscheme': 'jellybeans',
+       \ }
+endif
+
+if dein#tap('vim-easymotion')
+  let g:EasyMotion_do_mapping = 0
+  let g:EasyMotion_do_shade = 0
+  let g:EasyMotion_smartcase = 1
+  let g:EasyMotion_enter_jump_first = 1
+  nmap s <Plug>(easymotion-overwin-f2)
+  omap f <Plug>(easymotion-bd-fl)
+  xmap f <Plug>(easymotion-bd-fl)
+  omap F <Plug>(easymotion-Fl)
+  xmap F <Plug>(easymotion-Fl)
+  omap t <Plug>(easymotion-tl)
+  xmap t <Plug>(easymotion-tl)
+  omap T <Plug>(easymotion-Tl)
+  xmap T <Plug>(easymotion-Tl)
+  map J <Plug>(easymotion-j)
+  map K <Plug>(easymotion-k)
+endif
+
+if dein#tap('incsearch.vim')
+  let g:incsearch#auto_nohlsearch = 1
+  map /  <Plug>(incsearch-forward)
+  map ?  <Plug>(incsearch-backward)
+  map g/ <Plug>(incsearch-stay)
+  map n  <Plug>(incsearch-nohl-n)zz
+  map N  <Plug>(incsearch-nohl-N)zz
+endif
+
+if dein#tap('incsearch.vim') && dein#tap('vim-asterisk')
+  map *  <Plug>(incsearch-nohl0)<Plug>(asterisk-z*)zz
+  map g* <Plug>(incsearch-nohl0)<Plug>(asterisk-gz*)zz
+  map #  <Plug>(incsearch-nohl0)<Plug>(asterisk-z#)zz
+  map g# <Plug>(incsearch-nohl0)<Plug>(asterisk-gz#)zz
+endif
 
 " clever-f.vim
-let g:clever_f_not_overwrites_standard_mappings = 1
-let g:clever_f_smart_case = 1
-let g:clever_f_across_no_line = 1
-nmap f <Plug>(clever-f-f)
-nmap F <Plug>(clever-f-F)
+if dein#tap('clever-f.vim')
+  let g:clever_f_not_overwrites_standard_mappings = 1
+  let g:clever_f_smart_case = 1
+  let g:clever_f_across_no_line = 1
+  nmap f <Plug>(clever-f-f)
+  nmap F <Plug>(clever-f-F)
+endif
 
-" vim-operator-replace
-nmap R <Plug>(operator-replace)
-vmap R <Plug>(operator-replace)
+if dein#tap('vim-operator-replace')
+  nmap R <Plug>(operator-replace)
+  vmap R <Plug>(operator-replace)
+endif
 
-" vim-operator-surround
-map <silent>ys <Plug>(operator-surround-append)
-map <silent>ds <Plug>(operator-surround-delete)
-map <silent>cs <Plug>(operator-surround-replace)
-nmap <silent>yss V<Plug>(operator-surround-append)
-nmap <silent>dss V<Plug>(operator-surround-delete)
-nmap <silent>css V<Plug>(operator-surround-replace)
+if dein#tap('vim-operator-surround')
+  map <silent>ys <Plug>(operator-surround-append)
+  map <silent>ds <Plug>(operator-surround-delete)
+  map <silent>cs <Plug>(operator-surround-replace)
+endif
 
-" caw.vim
-nmap <Leader>c <Plug>(caw:i:toggle)
-vmap <Leader>c <Plug>(caw:i:toggle)
+if dein#tap('caw.vim')
+  nmap <Leader>c <Plug>(caw:i:toggle)
+  vmap <Leader>c <Plug>(caw:i:toggle)
+endif
 
-" indentLine
-let g:indentLine_color_term = 239
-let g:indentLine_faster = 1
-nnoremap <silent> <Leader>i :<C-u>IndentLinesToggle<CR>
+if dein#tap('indentLine')
+  let g:indentLine_color_term = 239
+  let g:indentLine_faster = 1
+  nnoremap <silent> <Leader>i :<C-u>IndentLinesToggle<CR>
+endif
 
-" vim-fugitive
-nnoremap [fugitive] <Nop>
-xnoremap [fugitive] <Nop>
-nmap <Space>g [fugitive]
-xmap <Space>g [fugitive]
-nnoremap [fugitive]s :<C-u>Gstatus<CR>
-nnoremap [fugitive]c :<C-u>Gcommit -v<CR>
-nnoremap [fugitive]a :<C-u>Gwrite<CR>
-nnoremap [fugitive]d :<C-u>Gdiff<CR>
-nnoremap [fugitive]b :<C-u>Gblame<CR>
+if dein#tap('vim-fugitive')
+  nnoremap [fugitive] <Nop>
+  xnoremap [fugitive] <Nop>
+  nmap <Space>g [fugitive]
+  xmap <Space>g [fugitive]
+  nnoremap [fugitive]s :<C-u>Gstatus<CR>
+  nnoremap [fugitive]c :<C-u>Gcommit -v<CR>
+  nnoremap [fugitive]a :<C-u>Gwrite<CR>
+  nnoremap [fugitive]d :<C-u>Gdiff<CR>
+  nnoremap [fugitive]b :<C-u>Gblame<CR>
+endif
 
-" gundo.vim
-nnoremap <Leader>g :<C-u>GundoToggle<CR>
+if dein#tap('gundo.vim')
+  nnoremap <Leader>g :<C-u>GundoToggle<CR>
+endif
 
-" jedi-vim
-let g:jedi#rename_command = '<Leader>R'
-let g:jedi#goto_assignments_command = '<Leader>G'
-let g:jedi#completions_command = '<C-N>'
+if dein#tap('jedi-vim')
+  let g:jedi#rename_command = '<Leader>R'
+  let g:jedi#goto_assignments_command = '<Leader>G'
+  let g:jedi#completions_command = '<C-N>'
+endif
 
-" vim-markdown
-let g:markdown_no_default_key_mappings = 1
-let g:vim_markdown_folding_disabled = 1
+if dein#tap('vim-markdown')
+  let g:markdown_no_default_key_mappings = 1
+  let g:vim_markdown_folding_disabled = 1
+endif
 
 "-----------------------------------------------------
 " 表示関係
