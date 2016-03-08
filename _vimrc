@@ -302,21 +302,21 @@ set wrap
 set cursorline
 " 行末と全角スペースをハイライト
 function! s:hl_trailing_spaces()
-    highlight! link TrailingSpaces Error
-    syntax match TrailingSpaces containedin=ALL /\s\+$/
+  highlight! link TrailingSpaces Error
+  syntax match TrailingSpaces containedin=ALL /\s\+$/
 endfunction
 function! s:hl_zenkaku()
-    highlight! link ZenkakuSpace Error
-    syntax match ZenkakuSpace containedin=ALL /　/
+  highlight! link ZenkakuSpace Error
+  syntax match ZenkakuSpace containedin=ALL /　/
 endfunction
 autocmd BufWinEnter,ColorScheme,Syntax * call s:hl_trailing_spaces()
 autocmd BufWinEnter,ColorScheme,Syntax * call s:hl_zenkaku()
 
 " 文末の空白を除去
 function! s:remove_trailing_white_spaces()
-    let pos = winsaveview()
-    silent! execute '%s/\s\+$//g'
-    call winrestview(pos)
+  let pos = winsaveview()
+  silent! execute '%s/\s\+$//g'
+  call winrestview(pos)
 endfunction
 command! RemoveTrailingWhiteSpaces call <SID>remove_trailing_white_spaces()
 command! -range=% TrimSpace  <line1>,<line2>s!\s*$!!g | nohlsearch
