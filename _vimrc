@@ -225,9 +225,9 @@ if dein#tap('vim-operator-replace')
 endif
 
 if dein#tap('vim-operator-surround')
-  map <silent>ys <Plug>(operator-surround-append)
-  map <silent>ds <Plug>(operator-surround-delete)
-  map <silent>cs <Plug>(operator-surround-replace)
+  nmap <silent>ys <Plug>(operator-surround-append)
+  nmap <silent>ds <Plug>(operator-surround-delete)
+  nmap <silent>cs <Plug>(operator-surround-replace)
 endif
 
 if dein#tap('caw.vim')
@@ -258,9 +258,13 @@ if dein#tap('gundo.vim')
 endif
 
 if dein#tap('jedi-vim')
-  let g:jedi#rename_command = '<Leader>R'
+  let g:jedi#goto_command = ''
   let g:jedi#goto_assignments_command = '<Leader>G'
+  let g:jedi#goto_definitions_command = ''
+  let g:jedi#documentation_command = ''
+  let g:jedi#usages_command = ''
   let g:jedi#completions_command = '<C-N>'
+  let g:jedi#rename_command = '<Leader>R'
 endif
 
 if dein#tap('vim-markdown')
