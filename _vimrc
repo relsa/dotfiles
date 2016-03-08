@@ -98,8 +98,8 @@ execute 'set runtimepath^=' . s:dein_repo_dir
 
 call dein#begin(s:dein_dir)
 
-let s:toml_path = '~/.vim/dein/dein.toml'
-let s:toml_lazy_path = '~/.vim/dein/deinlazy.toml'
+let s:toml_path = '~/.vim/dein.toml'
+let s:toml_lazy_path = '~/.vim/deinlazy.toml'
 
 if dein#load_cache([expand('<sfile>', s:toml_path, s:toml_lazy_path)])
   call dein#load_toml(s:toml_path, {'lazy': 0})

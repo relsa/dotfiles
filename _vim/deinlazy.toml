@@ -1,0 +1,97 @@
+[[plugins]]
+repo = 'Shougo/neomru.vim'
+on_path = '.*'
+
+[[plugins]]
+repo = 'Shougo/unite.vim'
+depends = 'neomru.vim'
+
+[[plugins]]
+repo = 'Shougo/neocomplete.vim'
+depends = 'context_filetype.vim'
+disabled = '!has("lua")'
+on_i = 1
+
+[[plugins]]
+repo = 'Shougo/deoplete.nvim'
+depends = 'context_filetype.vim'
+on_i = 1
+
+[[plugins]]
+repo = 'Shougo/neosnippet.vim'
+depends = ['neosnippet-snippets', 'context_filetype.vim']
+on_i = 1
+on_ft = 'snippet'
+
+[[plugins]]
+repo = 'Shougo/vimfiler.vim'
+depends = 'unite.vim'
+on_map = '<Plug>(vimfiler_'
+on_path = '.*'
+
+[[plugins]]
+repo = 'easymotion/vim-easymotion'
+on_map = [['sxno', '<Plug>(easymotion-']]
+on_func = ['EasyMotion#go', 'EasyMotion#User',
+           'EasyMotion#JK', 'EasyMotion#is_active']
+
+[[plugins]]
+repo = 'thinca/vim-quickrun'
+on_map = '<Plug>(quickrun)'
+on_cmd = 'QuinkRun'
+
+[[plugins]]
+repo = 'Shougo/junkfile.vim'
+on_source = 'unite.vim'
+
+[[plugins]]
+repo = 'Shougo/unite-outline'
+on_source = 'unite.vim'
+
+[[plugins]]
+repo = 'thinca/vim-unite-history'
+on_source = 'unite.vim'
+
+[[plugins]]
+repo = 'tyru/caw.vim'
+on_map = '<Plug>(caw:'
+
+[[plugins]]
+repo = 'sjl/gundo.vim'
+on_cmd = ['GundoToggle']
+
+[[plugins]]
+repo = 'kana/vim-operator-replace'
+depends = 'vim-operator-user'
+on_map = [['nx', '<Plug>(operator-replace)']]
+
+[[plugins]]
+repo = 'kana/vim-textobj-indent'
+depends = 'vim-operator-user'
+on_map = [['xo', 'ai'], ['xo', 'aI'], ['xo', 'ii'], ['xo', 'iI']]
+
+[[plugins]]
+repo = 'rhysd/vim-operator-surround'
+depends = 'vim-operator-user'
+on_map = [['nx', '<Plug>(operator-surround-']]
+
+[[plugins]]
+repo = 'rhysd/clever-f.vim'
+on_map = [['sxno', '<Plug>(clever-f-']]
+
+[[plugins]]
+repo = 'kannokanno/previm'
+on_ft = ['markdown', 'rst', 'mkd']
+depends = 'open-browser.vim'
+
+[[plugins]]
+repo = 'tyru/open-browser.vim'
+on_cmd = ['PreVimOpen']
+
+[[plugins]]
+repo = 'davidhalter/jedi-vim'
+on_ft = 'python'
+
+[[plugins]]
+repo = 'jmcantrell/vim-virtualenv'
+on_ft = 'python'
