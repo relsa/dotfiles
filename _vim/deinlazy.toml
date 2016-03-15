@@ -13,15 +13,14 @@ disabled = '!has("lua")'
 on_i = 1
 
 [[plugins]]
-repo = 'Shougo/deoplete.nvim'
-depends = 'context_filetype.vim'
-on_i = 1
-
-[[plugins]]
 repo = 'Shougo/neosnippet.vim'
 depends = ['neosnippet-snippets', 'context_filetype.vim']
 on_i = 1
 on_ft = 'snippet'
+
+[[plugins]]
+repo = 'ujihisa/neco-look'
+on_i = 1
 
 [[plugins]]
 repo = 'Shougo/vimfiler.vim'
@@ -41,6 +40,10 @@ on_map = '<Plug>(quickrun)'
 on_cmd = 'QuinkRun'
 
 [[plugins]]
+repo = "osyo-manga/shabadou.vim"
+on_source = 'vim-quickrun'
+
+[[plugins]]
 repo = 'Shougo/junkfile.vim'
 on_source = 'unite.vim'
 
@@ -50,6 +53,10 @@ on_source = 'unite.vim'
 
 [[plugins]]
 repo = 'thinca/vim-unite-history'
+on_source = 'unite.vim'
+
+[[plugins]]
+repo = "osyo-manga/unite-quickfix"
 on_source = 'unite.vim'
 
 [[plugins]]

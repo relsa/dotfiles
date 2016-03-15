@@ -1,98 +1,15 @@
-"-----------------------------------------------------
-" 基本的な設定
-"-----------------------------------------------------
-" 256色表示
-set t_Co=256
-" viとの互換性をとらない(vimの拡張機能を使うため）
-set nocompatible
-" 行頭の余白内でTabを打ち込むと'shiftwidth'の数だけインデントする
-set smarttab
-" 改- 行コードの自動認識
-set fileformats=unix,dos,mac
-" ビープ音を鳴らさない
-set vb t_vb=
-" バックスペースで削除できるものを指定
-set backspace=indent,eol,start
-" UTF-8の□や○でカーソル位置がずれないようにする
-if exists('&ambiwidth')
-  set ambiwidth=double
+if &compatible
+  set nocompatible
 endif
-set foldmethod=manual
 
-"-----------------------------------------------------
-" キーバインド変更
-"-----------------------------------------------------
-" <Leader>
-nnoremap ; <Nop>
-xnoremap ; <Nop>
-let mapleader = ';'
-
-nnoremap j gj
-nnoremap k gk
-
-nnoremap <Leader>J J
-nnoremap J <Nop>
-nnoremap <Leader>K K
-nnoremap K <Nop>
-
-nnoremap <C-f> <C-f>zz
-nnoremap <C-b> <C-b>zz
-
-inoremap  <C-a> <Home>
-inoremap  <C-e> <End>
-inoremap  <C-b> <Left>
-inoremap  <C-f> <Right>
-inoremap  <C-p> <Up>
-inoremap  <C-n> <Down>
-inoremap  <C-d> <Del>
-inoremap  <C-u> <C-o>d0
-inoremap  <C-k> <C-o>d$
-
-"-----------------------------------------------------
-" ファイル操作関連
-"-----------------------------------------------------
-" Exploreでカレントディレクトリを開く
-set browsedir=current
-
-"-----------------------------------------------------
-" バックアップ関連
-"-----------------------------------------------------
-" バックアップをとる
-set backup
-if !isdirectory($HOME."/.vim_backup")
-  call mkdir($HOME."/.vim_backup", "p")
-endif
-set backupdir=$HOME/.vim_backup
-
-if !isdirectory($HOME."/.vim_swap")
-  call mkdir($HOME."/.vim_swap", "p")
-endif
-set directory=$HOME/.vim_swap
-
-if has('persistent_undo')
-    if !isdirectory($HOME.'/.vim_undo')
-        call mkdir($HOME.'/.vim_undo', 'p')
-    endif
-    set undofile
-    set undoreload=1000
-    set undodir=~/.vim_undo
-endif
-" ファイルの上書き前にバックアップ作成。成功したら削除
-set writebackup
-
-
-"-----------------------------------------------------
-" プラグイン管理
-"-----------------------------------------------------
 
 " dein.vim
+
 let s:dein_dir = expand('~/.vim/dein')
 let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
-
 if !isdirectory(s:dein_repo_dir)
   execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
 endif
-
 execute 'set runtimepath^=' . s:dein_repo_dir
 
 
@@ -113,7 +30,155 @@ if dein#check_install()
   call dein#install()
 endif
 
-if dein#tap('vim-quickrun')
+filetype plugin indent on
+
+
+" Options
+
+if exists('&ambiwidth')
+  set ambiwidth=double
+endif
+
+set title
+set number
+set ruler
+set cursorline
+set laststatus=2
+set showcmd
+
+set wrap
+set nowrapscan
+set whichwrap=b,s,h,l,<,>,[,]
+
+set showmatch
+set matchpairs& matchpairs+=<:>
+
+set backspace=indent,eol,start
+
+set incsearch
+set hlsearch | nohlsearch
+set ignorecase
+set smartcase
+
+set smarttab
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
+set expandtab
+set shiftround
+set autoindent
+set smartindent
+
+set noerrorbells
+set novisualbell
+
+set encoding=utf-8
+set termencoding=utf-8
+set fileencoding=utf-8
+set fileencodings=utf-8,iso-2022-jp,cp932,sjis,euc-jp
+set fileformats=unix,dos,mac
+
+set foldmethod=manual
+set textwidth=0
+set wildmenu
+
+
+" For white spaces
+
+function! s:hl_trailing_spaces()
+  highlight! link TrailingSpaces Error
+  syntax match TrailingSpaces containedin=ALL /\s\+$/
+endfunction
+function! s:hl_zenkaku()
+  highlight! link ZenkakuSpace Error
+  syntax match ZenkakuSpace containedin=ALL /　/
+endfunction
+
+autocmd BufWinEnter,ColorScheme,Syntax * call s:hl_trailing_spaces()
+autocmd BufWinEnter,ColorScheme,Syntax * call s:hl_zenkaku()
+
+function! s:remove_trailing_white_spaces()
+  let pos = winsaveview()
+  silent! execute '%s/\s\+$//g'
+  call winrestview(pos)
+endfunction
+command! RemoveTrailingWhiteSpaces call <SID>remove_trailing_white_spaces()
+command! -range=% TrimSpace  <line1>,<line2>s!\s*$!!g | nohlsearch
+command! -range=% RemoveTrailM  <line1>,<line2>s!\r$!!g | nohlsearch
+
+
+" Colorscheme
+
+set t_Co=256
+colorscheme jellybeans
+set background=dark
+let g:jellybeans_overrides = {
+\    'Search': {'attr': 'BOLD',
+\               '256ctermfg': '255', '256ctermbg': '125'}
+\ }
+syntax enable
+
+
+" Backup
+
+set backup
+if !isdirectory($HOME."/.vim_backup")
+  call mkdir($HOME."/.vim_backup", "p")
+endif
+set backupdir=$HOME/.vim_backup
+if !isdirectory($HOME."/.vim_swap")
+  call mkdir($HOME."/.vim_swap", "p")
+endif
+set directory=$HOME/.vim_swap
+if has('persistent_undo')
+    if !isdirectory($HOME.'/.vim_undo')
+        call mkdir($HOME.'/.vim_undo', 'p')
+    endif
+    set undofile
+    set undoreload=1000
+    set undodir=~/.vim_undo
+endif
+set writebackup
+set history=1024
+
+
+" Key maps
+
+nnoremap ; <Nop>
+xnoremap ; <Nop>
+let mapleader = ';'
+
+nnoremap j gj
+nnoremap k gk
+nnoremap <Leader>J J
+nnoremap <Leader>K K
+nnoremap J <Nop>
+nnoremap K <Nop>
+
+nnoremap <C-u> zz<C-u>
+nnoremap <C-d> zz<C-d>
+nnoremap G Gzz
+
+inoremap  <C-a> <Home>
+inoremap  <C-e> <End>
+inoremap  <C-b> <Left>
+inoremap  <C-f> <Right>
+inoremap  <C-p> <Up>
+inoremap  <C-n> <Down>
+inoremap  <C-d> <Del>
+inoremap  <C-u> <C-o>d0
+inoremap  <C-k> <C-o>d$
+
+inoremap jj <Esc>
+cnoremap jj <Esc>
+nnoremap <silent> <Esc><Esc> :<C-u>nohlsearch<CR>
+
+cnoreabbrev w!! w !sudo tee > /dev/null %
+
+
+" Plugins
+
+if dein#tap('unite.vim')
   let g:unite_enable_start_insert = 1
   nnoremap [unite] <Nop>
   xnoremap [unite] <Nop>
@@ -130,7 +195,13 @@ if dein#tap('vim-quickrun')
 endif
 
 if dein#tap('neocomplete.vim')
+  let g:acp_enableAtStartup = 0
   let g:neocomplete#enable_at_startup = 1
+  let g:neocomplete#enable_smart_case = 1
+  let g:neocomplete#enable_underbar_completion = 1
+  let g:neocomplete#enable_camel_case_completion = 1
+  let g:neocomplete#sources#syntax#min_keyword_length = 3
+  let g:neocomplete#auto_completion_start_length = 2
 endif
 
 if dein#tap('neosnippet.vim')
@@ -152,6 +223,7 @@ if dein#tap('vimfiler.vim')
   xmap <Space>f [filer]
   nnoremap <silent> [filer]f :<C-u>VimFilerBufferDir<CR>
   nnoremap <silent> [filer]t :<C-u>VimFilerBufferDir -tab<CR>
+  nnoremap <silent> [filer]s :<C-u>VimFilerBufferDir -split -simple -no-quit -winwidth=32<CR>
 endif
 
 if dein#tap('vim-quickrun')
@@ -159,13 +231,10 @@ if dein#tap('vim-quickrun')
  nnoremap <silent> <Leader>qr :QuickRun<CR>
  let g:quickrun_config = get(g:, 'quickrun_config', {})
  let g:quickrun_config._ = {
-       \ 'runner'    : 'vimproc',
+       \ 'runner' : 'vimproc',
        \ 'runner/vimproc/updatetime' : 60,
-       \ 'outputter' : 'error',
-       \ 'outputter/error/success' : 'buffer',
-       \ 'outputter/error/error'   : 'quickfix',
-       \ 'outputter/buffer/split'  : ':rightbelow 8sp',
-       \ 'outputter/buffer/close_on_empty' : 1,
+       \ 'outputter/buffer/split' : ':botright 8sp',
+       \ 'outputter/buffer/running_mark' : 'running...',
        \ }
  nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
 endif
@@ -190,8 +259,8 @@ if dein#tap('vim-easymotion')
   xmap t <Plug>(easymotion-tl)
   omap T <Plug>(easymotion-Tl)
   xmap T <Plug>(easymotion-Tl)
-  map J <Plug>(easymotion-j)
-  map K <Plug>(easymotion-k)
+  nmap J <Plug>(easymotion-j)
+  nmap K <Plug>(easymotion-k)
 endif
 
 if dein#tap('incsearch.vim')
@@ -272,136 +341,3 @@ if dein#tap('vim-markdown')
   let g:vim_markdown_folding_disabled = 1
 endif
 
-"-----------------------------------------------------
-" 表示関係
-"-----------------------------------------------------
-" タイトルをウィンドウ枠に表示する
-set title
-" 行番号を表示する
-set number
-" ルーラーを表示
-set ruler
-" 入力中のコマンドをステータスに表示する
-set showcmd
-" ステータスラインを常に表示
-set laststatus=2
-" 括弧入力時に対応する括弧を表示
-set showmatch
-" 検索結果文字列のハイライトを有効にする
-set hlsearch | nohlsearch
-" コマンドライン補完を拡張モードにする
-set wildmenu
-" 行末から次の行へ移るようにする
-set whichwrap=b,s,h,l,<,>,[,]
-set backspace=indent,eol,start
-" 入力されているテキストの最大幅を無効にする
-set textwidth=0
-" ウィンドウの幅より長い行は折り返して、次の行に続けて表示する
-set wrap
-" 現在の行をハイライト
-set cursorline
-" 行末と全角スペースをハイライト
-function! s:hl_trailing_spaces()
-  highlight! link TrailingSpaces Error
-  syntax match TrailingSpaces containedin=ALL /\s\+$/
-endfunction
-function! s:hl_zenkaku()
-  highlight! link ZenkakuSpace Error
-  syntax match ZenkakuSpace containedin=ALL /　/
-endfunction
-autocmd BufWinEnter,ColorScheme,Syntax * call s:hl_trailing_spaces()
-autocmd BufWinEnter,ColorScheme,Syntax * call s:hl_zenkaku()
-
-" 文末の空白を除去
-function! s:remove_trailing_white_spaces()
-  let pos = winsaveview()
-  silent! execute '%s/\s\+$//g'
-  call winrestview(pos)
-endfunction
-command! RemoveTrailingWhiteSpaces call <SID>remove_trailing_white_spaces()
-command! -range=% TrimSpace  <line1>,<line2>s!\s*$!!g | nohlsearch
-command! -range=% RemoveTrailM  <line1>,<line2>s!\r$!!g | nohlsearch
-
-let g:jellybeans_overrides = {
-\    'Search': {'attr': 'BOLD',
-\               '256ctermfg': '255', '256ctermbg': '125'}
-\ }
-
-colorscheme jellybeans
-set background=dark
-syntax enable
-
-"-----------------------------------------------------
-" 検索関係
-"-----------------------------------------------------
-" コマンド、検索パターンを100個まで履歴に残す
-set history=1000
-" 検索の時に大文字小文字を区別しない
-set ignorecase
-" 検索の時に大文字が含まれている場合は区別して検索する
-set smartcase
-" 最後まで検索したら先頭に戻らない
-set nowrapscan
-" インクリメンタルサーチを使う
-set incsearch
-" 検索後にジャンプした際に検索単語を画面中央に持ってくる -> incsearch
-" nnoremap n nzz
-" nnoremap N Nzz
-" nnoremap * *zz
-" nnoremap # #zz
-" nnoremap g* g*zz
-" nnoremap g# g#zz
-" 対応括弧に'<'と'>'のペアを追加
-set matchpairs& matchpairs+=<:>
-
-"-----------------------------------------------------
-" インデント
-"-----------------------------------------------------
-" ファイルごとに設定を変える
-filetype plugin indent on
-" タブが対応する空白の数
-set tabstop=4
-" タブやバックスペースの使用等の編集操作をするときに、タブが対応する空白の数
-set softtabstop=4
-" インデントの各段階に使われる空白の数
-set shiftwidth=4
-" タブを挿入するとき、代わりに空白を使う
-set expandtab
-" インデントをオプションの'shiftwidth'の値の倍数に丸める
-set shiftround
-" オートインデントを有効にする
-set autoindent
-" 新しい行を作ったときに高度な自動インデントを行う。 'cindent'
-" がオンのときは、'smartindent' をオンにしても効果はない。
-set smartindent
-
-"----------------------------------------------------
-"" 国際化関係
-"----------------------------------------------------
-" 文字コードの設定
-" fileencodingsの設定ではencodingの値を一番最後に記述する
-set encoding=utf-8
-"set encoding=japan
-set termencoding=utf-8
-set fileencoding=utf-8
-set fileencodings=utf-8,iso-2022-jp,cp932,sjis,euc-jp
-
-"----------------------------------------------------
-" その他
-"----------------------------------------------------
-
-" 入力モード中に素早くjjと入力した場合はESCとみなす
-inoremap jj <Esc>
-cnoremap jj <Esc>
-
-" w!! でスーパーユーザーとして保存（sudoが使える環境限定）
-cnoreabbrev w!! w !sudo tee > /dev/null %
-
-" 矩形選択で連番入力
-" 数字を選んで co と入力
-nnoremap <silent> co :ContinuousNumber <C-a><CR>
-vnoremap <silent> co :ContinuousNumber <C-a><CR>
-command! -count -nargs=1 ContinuousNumber let c = col('.')|for n in range(1, <count>?<count>-line('.'):1)|exec 'normal! j' . n . <q-args>|call cursor('.', c)|endfor
-
-" ESCを二回押すことでハイライトを消す
-nmap <silent> <Esc><Esc> :<C-u>nohlsearch<CR>
