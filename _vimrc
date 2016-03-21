@@ -70,7 +70,7 @@ set autoindent
 set smartindent
 
 set noerrorbells
-set novisualbell
+set visualbell t_vb=
 
 set encoding=utf-8
 set termencoding=utf-8
@@ -327,9 +327,10 @@ if dein#tap('gundo.vim')
 endif
 
 if dein#tap('jedi-vim')
+  let g:jedi#auto_vim_configuration = 0
   let g:jedi#goto_command = ''
   let g:jedi#goto_assignments_command = '<Leader>G'
-  let g:jedi#goto_definitions_command = ''
+  let g:jedi#goto_definitions_command = '<Leader>D'
   let g:jedi#documentation_command = ''
   let g:jedi#usages_command = ''
   let g:jedi#completions_command = '<C-N>'
