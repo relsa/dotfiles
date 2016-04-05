@@ -175,6 +175,8 @@ nnoremap <silent> <Esc><Esc> :<C-u>nohlsearch<CR>
 
 cnoreabbrev w!! w !sudo tee > /dev/null %
 
+let g:tex_conceal=''  " disable tex_conceal
+
 
 " Plugins
 
@@ -235,6 +237,22 @@ if dein#tap('vim-quickrun')
        \ 'runner/vimproc/updatetime' : 60,
        \ 'outputter/buffer/split' : ':botright 8sp',
        \ 'outputter/buffer/running_mark' : 'running...',
+       \ }
+ let g:quickrun_config['tex'] = {
+       \ 'command' : 'latexmk',
+       \ 'srcfile' : expand("%"),
+       \ 'cmdopt': '-pdfdvi',
+       \ 'hook/sweep/files' : [
+       \                      '%S:p:r.aux',
+       \                      '%S:p:r.bbl',
+       \                      '%S:p:r.blg',
+       \                      '%S:p:r.dvi',
+       \                      '%S:p:r.fdb_latexmk',
+       \                      '%S:p:r.fls',
+       \                      '%S:p:r.log',
+       \                      '%S:p:r.out'
+       \                      ],
+       \ 'exec': '%c %o %a %s',
        \ }
  nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
 endif
@@ -324,6 +342,11 @@ endif
 
 if dein#tap('gundo.vim')
   nnoremap <Leader>g :<C-u>GundoToggle<CR>
+endif
+
+if dein#tap('vim-easy-align')
+  xmap ga <Plug>(EasyAlign)
+  nmap ga <Plug>(EasyAlign)
 endif
 
 if dein#tap('jedi-vim')
