@@ -12,18 +12,9 @@ esac
 alias ll='ls -l'
 alias la='ls -A'
 alias lal='ls -Al'
-alias cp='cp -i'
-alias mv='mv -i'
-alias du='du -h'
-# alias s='screen -U'
 alias vi='vim'
 alias tmux='tmux -2'
-alias sudo='sudo '
 alias ta='tmux attach'
-# alias mysql='mysql --local-infile=1'
-alias javac='javac -J-Dfile.encoding=UTF-8'
-alias java='java -Dfile.encoding=UTF-8'
-alias -s txt=cat
 function cdls() {
   \cd $1;
   ls;

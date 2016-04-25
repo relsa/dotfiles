@@ -14,6 +14,7 @@ setopt complete_aliases
 # 別ファイル読み込み
 [ -f ~/.zshrc.alias ] && source ~/.zshrc.alias
 [ -f ~/.zshrc.zplug ] && source ~/.zshrc.zplug
+[ -f ~/.zshrc.local ] && source ~/.zshrc.local
 
 #----------------------------------------------------------
 # 基本
@@ -37,11 +38,6 @@ setopt no_flow_control
 setopt print_eight_bit
 # C-wで直前の/までを削除する
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
-# ディレクトリを水色にする
-#export LS_COLORS='di=01;36'
-# 色の設定
-# export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=33:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
-# export LSCOLORS=exfxcxdxdxegedabagacad
 # zmv使う
 autoload zmv
 
@@ -224,43 +220,10 @@ PROMPT=$'
 %{$c_purple%}%n%{$c_end%} @ %{$c_red%}%m%{$c_end%}  %{$c_yellow%}%~%{$c_end%}  $vcs_info_msg_0_$(virtualenv_info)
 $ '
 
-
-
-#----------------------------------------------------------
-# Python
-#----------------------------------------------------------
-export NOSE_REDNOSE=1
-
-#----------------------------------------------------------
-# その他
-#----------------------------------------------------------
-# ログアウト時にバックグラウンドジョブをkillしない
-setopt no_hup
-# ログアウト時にバックグラウンドジョブを確認しない
-setopt no_checkjobs
-# バックグラウンドジョブが終了したら(プロンプトの表示を待たずに)すぐに知らせる
-setopt notify
-
-# makeのエラー出力に色付け
-# e_normal=`echo -e "\033[0;30m"`
-# e_RED=`echo -e "\033[1;31m"`
-# e_BLUE=`echo -e "\033[1;36m"`
-# function make() {
-# LANG=C command make "$@" 2>&1 | sed -e "s@[Ee]rror:.*@$e_RED&$e_normal@g" -e "s@cannot\sfind.*@$e_RED&$e_normal@g" -e "s@[Ww]arning:.*@$e_BLUE&$e_normal@g"
-# }
-#
-# pbcopy-buffer(){
-#   print -rn $BUFFER | pbcopy
-#   zle -M "pbcopy: ${BUFFER}"
-# }
-# zle -N pbcopy-buffer
-# bindkey '^x^p' pbcopy-buffer
-
 #--------------------------------------------------
 # anyenv
 #--------------------------------------------------
-# eval "$(anyenv init -)"
-#
+
 if [ -d $HOME/.anyenv ] ; then
   export PATH="$HOME/.anyenv/bin:$PATH"
   eval "$(anyenv init -)"
@@ -270,16 +233,13 @@ if [ -d $HOME/.anyenv ] ; then
   done
 fi
 
-#----------------------------------------------------------
-# 環境依存対応
-#----------------------------------------------------------
-# ~/.zshrc.localを読み込む
-[ -f ~/.zshrc.local ] && source ~/.zshrc.local
+if [ -d $HOME/.anyenv/envs/pyenv ] ; then
+  eval "$(pyenv virtualenv-init -)"
+fi
 
 #----------------------------------------------------------
 # Peco
 #----------------------------------------------------------
-
 
 function peco-select-history() {
     local tac
@@ -296,3 +256,13 @@ function peco-select-history() {
 }
 zle -N peco-select-history
 bindkey '^r' peco-select-history
+
+#----------------------------------------------------------
+# その他
+#----------------------------------------------------------
+# ログアウト時にバックグラウンドジョブをkillしない
+setopt no_hup
+# ログアウト時にバックグラウンドジョブを確認しない
+setopt no_checkjobs
+# バックグラウンドジョブが終了したら(プロンプトの表示を待たずに)すぐに知らせる
+setopt notify
