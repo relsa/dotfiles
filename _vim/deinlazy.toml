@@ -44,6 +44,10 @@ repo = "osyo-manga/shabadou.vim"
 on_source = 'vim-quickrun'
 
 [[plugins]]
+repo = "osyo-manga/vim-watchdogs"
+on_cmd = ['WatchdogsRun']
+
+[[plugins]]
 repo = 'Shougo/junkfile.vim'
 on_source = 'unite.vim'
 

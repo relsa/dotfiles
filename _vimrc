@@ -107,18 +107,6 @@ command! -range=% TrimSpace  <line1>,<line2>s!\s*$!!g | nohlsearch
 command! -range=% RemoveTrailM  <line1>,<line2>s!\r$!!g | nohlsearch
 
 
-" Colorscheme
-
-set t_Co=256
-colorscheme jellybeans
-set background=dark
-let g:jellybeans_overrides = {
-\    'Search': {'attr': 'BOLD',
-\               '256ctermfg': '255', '256ctermbg': '125'}
-\ }
-syntax enable
-
-
 " Backup
 
 set backup
@@ -186,6 +174,7 @@ if dein#tap('unite.vim')
   xnoremap [unite] <Nop>
   nmap <Space>u [unite]
   xmap <Space>u [unite]
+  nnoremap <silent> [unite]<CR> :<C-u>Unite<CR>
   nnoremap <silent> [unite]b :<C-u>Unite buffer<CR>
   nnoremap <silent> [unite]f :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
   nnoremap <silent> [unite]r :<C-u>Unite -buffer-name=register register<CR>
@@ -365,3 +354,34 @@ if dein#tap('vim-markdown')
   let g:vim_markdown_folding_disabled = 1
 endif
 
+
+" Colorscheme
+
+set t_Co=256
+set background=dark
+
+if dein#tap('jellybeans.vim')
+  let g:jellybeans_overrides = {
+  \    'Search': {'attr': 'BOLD',
+  \               '256ctermfg': '255', '256ctermbg': '125'}
+  \ }
+endif
+
+if dein#tap('vim-lucius')
+  let g:lucius_contrast = 'low'
+  let g:lucius_contrast_bg = 'high'
+endif
+
+if dein#tap('mirodark')
+  let g:mirodark_disable_color_approximation=1
+  let g:mirodark_enable_higher_contrast_mode=0
+endif
+
+colorscheme iceberg
+syntax enable
+
+" override lucius Black theme
+if g:colors_name == 'lucius'
+  highlight! LineNr ctermbg=233
+  highlight! Search cterm=BOLD ctermfg=255
+endif

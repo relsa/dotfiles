@@ -50,3 +50,11 @@ repo = 'w0ng/vim-hybrid'
 [[plugins]]
 repo = 'ciaranm/inkpot'
 
+[[plugins]]
+repo = 'jonathanfilip/vim-lucius'
+
+[[plugins]]
+repo = 'djjcast/mirodark'
+
+[[plugins]]
+repo = 'cocopon/iceberg.vim'
