@@ -12,12 +12,6 @@ repo = 'Shougo/context_filetype.vim'
 repo = 'Shougo/neosnippet-snippets'
 
 [[plugins]]
-repo = 'osyo-manga/unite-quickfix'
-
-[[plugins]]
-repo = 'osyo-manga/unite-filetype'
-
-[[plugins]]
 repo = 'tpope/vim-fugitive'
 
 [[plugins]]
