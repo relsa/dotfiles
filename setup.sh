@@ -7,12 +7,8 @@ ln -s ~/dotfiles/_zshrc ~/.zshrc
 ln -s ~/dotfiles/_zshrc.alias ~/.zshrc.alias
 
 # zplug
-if [ -d ~/.zplug ]; then
-  rm ~/.zplug
-else
-  curl -sL get.zplug.sh | zsh
-fi
-
+[ -d ~/.zplug ] && rm -rf ~/.zplug
+curl -sL get.zplug.sh | zsh
 [ -f ~/.zshrc.zplug ] && rm ~/.zshrc.zplug
 ln -s ~/dotfiles/_zshrc.zplug ~/.zshrc.zplug
 
