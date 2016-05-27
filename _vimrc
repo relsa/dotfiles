@@ -7,24 +7,23 @@ endif
 
 let s:dein_dir = expand('~/.vim/dein')
 let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
+
 if !isdirectory(s:dein_repo_dir)
   execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
 endif
+
 execute 'set runtimepath^=' . s:dein_repo_dir
 
+if dein#load_state(s:dein_dir)
+  call dein#begin(s:dein_dir)
 
-call dein#begin(s:dein_dir)
+  call dein#load_toml('~/.vim/dein.toml', {'lazy': 0})
+  call dein#load_toml( '~/.vim/deinlazy.toml', {'lazy': 1})
 
-let s:toml_path = '~/.vim/dein.toml'
-let s:toml_lazy_path = '~/.vim/deinlazy.toml'
+  call dein#end()
 
-if dein#load_cache([expand('<sfile>', s:toml_path, s:toml_lazy_path)])
-  call dein#load_toml(s:toml_path, {'lazy': 0})
-  call dein#load_toml(s:toml_lazy_path, {'lazy': 1})
-  call dein#save_cache()
+  call dein#save_state()
 endif
-
-call dein#end()
 
 if dein#check_install()
   call dein#install()
@@ -138,10 +137,6 @@ let mapleader = ';'
 
 nnoremap j gj
 nnoremap k gk
-nnoremap <Leader>J J
-nnoremap <Leader>K K
-nnoremap J <Nop>
-nnoremap K <Nop>
 
 nnoremap <C-u> zz<C-u>
 nnoremap <C-d> zz<C-d>
@@ -266,8 +261,8 @@ if dein#tap('vim-easymotion')
   xmap t <Plug>(easymotion-tl)
   omap T <Plug>(easymotion-Tl)
   xmap T <Plug>(easymotion-Tl)
-  nmap J <Plug>(easymotion-j)
-  nmap K <Plug>(easymotion-k)
+  nmap <Leader>j <Plug>(easymotion-j)
+  nmap <Leader>k <Plug>(easymotion-k)
 endif
 
 if dein#tap('incsearch.vim')
