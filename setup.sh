@@ -1,52 +1,35 @@
 # zshrc
-if [ -e ~/.zshrc ]; then
-    rm ~/.zshrc
-fi
+[ -f ~/.zshrc ] && rm ~/.zshrc
 ln -s ~/dotfiles/_zshrc ~/.zshrc
 
 # zshrc alias
-if [ -e ~/.zshrc.alias ]; then
-    rm ~/.zshrc.alias
-fi
+[ -f ~/.zshrc.alias ] && rm ~/.zshrc.alias
 ln -s ~/dotfiles/_zshrc.alias ~/.zshrc.alias
 
 # zplug
-if [ -e ~/.zplug ]; then
-    rm ~/.zplug
+if [ -d ~/.zplug ]; then
+  rm ~/.zplug
+else
+  export ZPLUG_HOME=~/dotfiles/_zplug
+  git clone https://github.com/zplug/zplug $ZPLUG_HOME
 fi
+[ -f ~/.zshrc.zplug ] && rm ~/.zshrc.zplug
 ln -s ~/dotfiles/_zplug ~/.zplug
-if [ -e ~/.zshrc.zplug ]; then
-    rm ~/.zshrc.zplug
-fi
 ln -s ~/dotfiles/_zshrc.zplug ~/.zshrc.zplug
 
 # vim
-if [ -e ~/.vim ]; then
-    rm ~/.vim
-fi
+[ -d ~/.vim ] && rm ~/.vim
 ln -s ~/dotfiles/_vim ~/.vim
 
 # vimrc
-if [ -e ~/.vimrc ]; then
-    rm ~/.vimrc
-fi
+[ -f ~/.vimrc ] && rm ~/.vimrc
 ln -s ~/dotfiles/_vimrc ~/.vimrc
 
 # tmux
-if [ -e ~/.tmux.conf ]; then
-    rm ~/.tmux.conf
-fi
+[ -f ~/.tmux.conf ] && rm ~/.tmux.conf
 ln -s ~/dotfiles/_tmux.conf ~/.tmux.conf
 
 # gitconfig
-if [ -e ~/.gitconfig ]; then
-    rm ~/.gitconfig
-fi
+[ -f ~/.gitconfig ] && rm ~/.gitconfig
 ln -s ~/dotfiles/_gitconfig ~/.gitconfig
-
-# vimperator
-if [ -e ~/.vimperatorrc ]; then
-    rm ~/.vimperatorrc
-fi
-ln -s ~/dotfiles/_vimperatorrc ~/.vimperatorrc
 

@@ -1,9 +1,5 @@
-if [ -z "$(ls -A ~/.zplug/)" ]; then
-    git clone https://github.com/b4b4r07/zplug ~/.zplug
-fi
 source ~/.zplug/zplug
 
-zplug "plugins/git", from:oh-my-zsh
 zplug "mafredri/zsh-async"
 zplug "zsh-users/zsh-history-substring-search"
 zplug "peco/peco", as:command, from:gh-r

@@ -231,11 +231,14 @@ if [ -d $HOME/.anyenv ] ; then
   do
     export PATH="$HOME/.anyenv/envs/$D/shims:$PATH"
   done
+
+  # pyenv-virtualenv
+  if [ -d $HOME/.anyenv/envs/pyenv/plugins/pyenv-virtualenv ] ; then
+    eval "$(pyenv virtualenv-init -)"
+  fi
 fi
 
-if [ -d $HOME/.anyenv/envs/pyenv ] ; then
-  eval "$(pyenv virtualenv-init -)"
-fi
+
 
 #----------------------------------------------------------
 # Peco
