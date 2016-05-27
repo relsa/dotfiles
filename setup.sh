@@ -10,11 +10,10 @@ ln -s ~/dotfiles/_zshrc.alias ~/.zshrc.alias
 if [ -d ~/.zplug ]; then
   rm ~/.zplug
 else
-  export ZPLUG_HOME=~/dotfiles/_zplug
-  git clone https://github.com/zplug/zplug $ZPLUG_HOME
+  curl -sL get.zplug.sh | zsh
 fi
+
 [ -f ~/.zshrc.zplug ] && rm ~/.zshrc.zplug
-ln -s ~/dotfiles/_zplug ~/.zplug
 ln -s ~/dotfiles/_zshrc.zplug ~/.zshrc.zplug
 
 # vim
