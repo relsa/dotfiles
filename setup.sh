@@ -24,7 +24,9 @@ ln -s ~/dotfiles/_vimrc ~/.vimrc
 [ -f ~/.tmux.conf ] && rm ~/.tmux.conf
 ln -s ~/dotfiles/_tmux.conf ~/.tmux.conf
 
-# gitconfig
+# git
 [ -f ~/.gitconfig ] && rm ~/.gitconfig
+[ -f ~/.gitignore ] && rm ~/.gitignore
 ln -s ~/dotfiles/_gitconfig ~/.gitconfig
+ln -s ~/dotfiles/_gitignore ~/.gitignore
 
