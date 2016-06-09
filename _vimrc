@@ -142,6 +142,12 @@ nnoremap <C-u> zz<C-u>
 nnoremap <C-d> zz<C-d>
 nnoremap G Gzz
 
+nnoremap t <Nop>
+nnoremap to :<C-u>tabedit<Space>
+nnoremap <silent> tx :<C-u>tabclose<CR>
+nnoremap L gt
+nnoremap H gT
+
 inoremap  <C-a> <Home>
 inoremap  <C-e> <End>
 inoremap  <C-b> <Left>
@@ -302,8 +308,8 @@ if dein#tap('vim-operator-surround')
 endif
 
 if dein#tap('caw.vim')
-  nmap <Leader>c <Plug>(caw:i:toggle)
-  vmap <Leader>c <Plug>(caw:i:toggle)
+  nmap <Leader>c <Plug>(caw:hatpos:toggle)
+  vmap <Leader>c <Plug>(caw:hatpos:toggle)
 endif
 
 if dein#tap('indentLine')

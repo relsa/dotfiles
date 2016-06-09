@@ -5,6 +5,7 @@ setlocal tabstop=4
 setlocal softtabstop=4
 setlocal shiftwidth=4
 setlocal commentstring=#%s
+setlocal completeopt-=preview
 
 function! s:hl_python_keyword()
     highlight! link PythonIdentifier Identifier
