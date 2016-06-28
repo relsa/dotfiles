@@ -138,3 +138,8 @@ on_ft = ['markdown', 'mkd']
 [[plugins]]
 repo = 'lervag/vimtex'
 on_ft = 'tex'
+
+[[plugins]]
+repo = 'mattn/excelview-vim'
+on_cmd = ['ExcelView']
+depends = 'webapi-vim'

@@ -32,6 +32,9 @@ repo = 'haya14busa/incsearch.vim'
 [[plugins]]
 repo = 'haya14busa/vim-asterisk'
 
+[[plugins]]
+repo = 'mattn/webapi-vim'
+
 
 # Colorschemes
 

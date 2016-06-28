@@ -158,8 +158,6 @@ inoremap  <C-d> <Del>
 inoremap  <C-u> <C-o>d0
 inoremap  <C-k> <C-o>d$
 
-inoremap jj <Esc>
-cnoremap jj <Esc>
 nnoremap <silent> <Esc><Esc> :<C-u>nohlsearch<CR>
 
 cnoreabbrev w!! w !sudo tee > /dev/null %
