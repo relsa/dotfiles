@@ -79,6 +79,7 @@ set fileformats=unix,dos,mac
 
 set foldmethod=manual
 set textwidth=0
+set colorcolumn=80,120
 set wildmenu
 
 
@@ -143,7 +144,7 @@ nnoremap <C-d> zz<C-d>
 nnoremap G Gzz
 
 nnoremap t <Nop>
-nnoremap to :<C-u>tabedit<Space>
+nnoremap to :<C-u>tabedit<CR>
 nnoremap <silent> tx :<C-u>tabclose<CR>
 nnoremap L gt
 nnoremap H gT
@@ -248,6 +249,15 @@ endif
 if dein#tap('lightline.vim')
   let g:lightline = {
        \ 'colorscheme': 'jellybeans',
+       \ 'active': {
+       \   'left': [
+       \     ['mode', 'paste'],
+       \     ['readonly', 'filename', 'modified', 'anzu']
+       \   ]
+       \ },
+       \ 'component_function': {
+       \   'anzu': 'anzu#search_status'
+       \ }
        \ }
 endif
 
@@ -269,13 +279,14 @@ if dein#tap('vim-easymotion')
   nmap <Leader>k <Plug>(easymotion-k)
 endif
 
-if dein#tap('incsearch.vim')
+if dein#tap('incsearch.vim') && dein#tap('vim-anzu')
   let g:incsearch#auto_nohlsearch = 1
   map /  <Plug>(incsearch-forward)
   map ?  <Plug>(incsearch-backward)
   map g/ <Plug>(incsearch-stay)
-  map n  <Plug>(incsearch-nohl-n)zz
-  map N  <Plug>(incsearch-nohl-N)zz
+  map n  <Plug>(incsearch-nohl)<Plug>(anzu-n)zz
+  map N  <Plug>(incsearch-nohl)<Plug>(anzu-N)zz
+  autocmd CursorMoved,CursorMovedI * call anzu#clear_search_status()
 endif
 
 if dein#tap('incsearch.vim') && dein#tap('vim-asterisk')
@@ -285,13 +296,18 @@ if dein#tap('incsearch.vim') && dein#tap('vim-asterisk')
   map g# <Plug>(incsearch-nohl0)<Plug>(asterisk-gz#)zz
 endif
 
-" clever-f.vim
 if dein#tap('clever-f.vim')
   let g:clever_f_not_overwrites_standard_mappings = 1
   let g:clever_f_smart_case = 1
   let g:clever_f_across_no_line = 1
   nmap f <Plug>(clever-f-f)
   nmap F <Plug>(clever-f-F)
+endif
+
+if dein#tap('foldCC.vim')
+  set foldtext=FoldCCtext()
+  let g:foldCCnavi_maxchars = 40
+  let g:foldCCtext_tail = '(v:foldend - v:foldstart + 1) . " lines"'
 endif
 
 if dein#tap('vim-operator-replace')

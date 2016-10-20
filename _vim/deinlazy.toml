@@ -56,6 +56,10 @@ repo = 'osyo-manga/unite-filetype'
 on_source = 'unite.vim'
 
 [[plugins]]
+repo = 'osyo-manga/vim-anzu'
+on_map = '<Plug>(anzu-'
+
+[[plugins]]
 repo = 'Shougo/junkfile.vim'
 on_source = 'unite.vim'
 
@@ -113,10 +117,6 @@ on_cmd = ['PreVimOpen']
 
 [[plugins]]
 repo = 'davidhalter/jedi-vim'
-on_ft = 'python'
-
-[[plugins]]
-repo = 'jmcantrell/vim-virtualenv'
 on_ft = 'python'
 
 [[plugins]]

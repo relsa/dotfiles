@@ -33,6 +33,12 @@ repo = 'haya14busa/incsearch.vim'
 repo = 'haya14busa/vim-asterisk'
 
 [[plugins]]
+repo = 'vim-scripts/grep.vim'
+
+[[plugins]]
+repo = 'LeafCage/foldCC.vim'
+
+[[plugins]]
 repo = 'mattn/webapi-vim'
 
 
