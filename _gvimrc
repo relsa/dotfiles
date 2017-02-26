@@ -1,0 +1,35 @@
+" display & information
+set lines=25        " typical
+set columns=80      " margin for 'number' and 'foldcolumn'
+set cmdheight=1     " MacVim $VIM/gvimrc overwrites my .vimrc settings
+set guioptions=c    " show no GUI components
+
+" no way to use a mouse
+set mouse=
+set nomousefocus
+set mousehide
+
+" no beep
+set noerrorbells
+set visualbell t_vb=
+
+" Full screen
+autocmd GUIEnter * simalt ~x
+
+" font
+if has('win32')
+  set guifont=Myrica_M:h12,VL_Gothic:h12,MS_Gothic:h12
+  set linespace=0
+elseif has('mac')
+    set guifont=Myrica_M:h14,VL_Gothic:h12
+    set linespace=0
+endif
+
+" turn off disabling IM at entering input mode
+if exists('&imdisableactivate')
+  set noimdisableactivate
+endif
+
+
+syntax enable       " use syntax highlight
+colorscheme iceberg   " my color scheme
