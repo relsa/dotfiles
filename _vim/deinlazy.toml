@@ -14,8 +14,9 @@ on_i = 1
 
 [[plugins]]
 repo = 'Shougo/vimshell.vim'
+depends = 'vimproc.vim'
 on_map = '<Plug>(vimshell_'
-on_func = 'VimShell'
+on_cmd = 'VimShell'
 
 [[plugins]]
 repo = 'Shougo/neosnippet.vim'
@@ -41,8 +42,9 @@ on_func = ['EasyMotion#go', 'EasyMotion#User',
 
 [[plugins]]
 repo = 'thinca/vim-quickrun'
+depends = 'vimproc.vim'
 on_map = '<Plug>(quickrun)'
-on_cmd = 'QuinkRun'
+on_cmd = 'QuickRun'
 
 [[plugins]]
 repo = 'osyo-manga/shabadou.vim'

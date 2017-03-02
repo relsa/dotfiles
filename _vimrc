@@ -5,7 +5,7 @@ endif
 
 " dein.vim
 
-let s:dein_dir = expand('~/.vim/dein')
+let s:dein_dir = expand($HOME.'/.vim/dein')
 let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
 
 if !isdirectory(s:dein_repo_dir)
@@ -17,8 +17,8 @@ execute 'set runtimepath^=' . s:dein_repo_dir
 if dein#load_state(s:dein_dir)
   call dein#begin(s:dein_dir)
 
-  call dein#load_toml('~/.vim/dein.toml', {'lazy': 0})
-  call dein#load_toml( '~/.vim/deinlazy.toml', {'lazy': 1})
+  call dein#load_toml($HOME.'/.vim/dein.toml', {'lazy': 0})
+  call dein#load_toml($HOME.'/.vim/deinlazy.toml', {'lazy': 1})
 
   call dein#end()
 
@@ -143,9 +143,6 @@ nnoremap <C-u> zz<C-u>
 nnoremap <C-d> zz<C-d>
 nnoremap G Gzz
 
-nnoremap t <Nop>
-nnoremap to :<C-u>tabedit<CR>
-nnoremap <silent> tx :<C-u>tabclose<CR>
 nnoremap L gt
 nnoremap H gT
 

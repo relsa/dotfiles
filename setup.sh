@@ -1,3 +1,8 @@
+# install anyenv
+if [ ! -d ~/.anyenv ] ; then
+  git clone https://github.com/riywo/anyenv ~/.anyenv
+fi
+
 # zshrc
 [ -f ~/.zshrc ] && rm ~/.zshrc
 ln -s ~/dotfiles/_zshrc ~/.zshrc
@@ -5,12 +10,6 @@ ln -s ~/dotfiles/_zshrc ~/.zshrc
 # zshrc alias
 [ -f ~/.zshrc.alias ] && rm ~/.zshrc.alias
 ln -s ~/dotfiles/_zshrc.alias ~/.zshrc.alias
-
-# zplug
-[ -d ~/.zplug ] && rm -rf ~/.zplug
-curl -sL get.zplug.sh | zsh
-[ -f ~/.zshrc.zplug ] && rm ~/.zshrc.zplug
-ln -s ~/dotfiles/_zshrc.zplug ~/.zshrc.zplug
 
 # vim
 [ -d ~/.vim ] && rm ~/.vim

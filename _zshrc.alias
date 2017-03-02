@@ -20,3 +20,4 @@ function cdls() {
   ls;
 }
 alias cd=cdls
+alias localdisplay='export DISPLAY=localhost:0.0'

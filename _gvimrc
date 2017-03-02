@@ -18,10 +18,10 @@ autocmd GUIEnter * simalt ~x
 
 " font
 if has('win32')
-  set guifont=Myrica_M:h12,VL_Gothic:h12,MS_Gothic:h12
+  set guifont=Ricty-Regular:h12,Myrica_M:h12,VL_Gothic:h12,MS_Gothic:h12
   set linespace=0
 elseif has('mac')
-    set guifont=Myrica_M:h14,VL_Gothic:h12
+    set guifont=Ricty-Regular:h12,Myrica_M:h12,VL_Gothic:h12
     set linespace=0
 endif
 
