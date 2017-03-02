@@ -379,21 +379,6 @@ if dein#tap('jellybeans.vim')
   \ }
 endif
 
-if dein#tap('vim-lucius')
-  let g:lucius_contrast = 'low'
-  let g:lucius_contrast_bg = 'high'
-endif
-
-if dein#tap('mirodark')
-  let g:mirodark_disable_color_approximation=1
-  let g:mirodark_enable_higher_contrast_mode=0
-endif
-
-colorscheme iceberg
+colorscheme hybrid
 syntax enable
 
-" override lucius Black theme
-if g:colors_name == 'lucius'
-  highlight! LineNr ctermbg=233
-  highlight! Search cterm=BOLD ctermfg=255
-endif
