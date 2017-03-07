@@ -224,24 +224,24 @@ PROMPT=$'
 $ '
 
 #--------------------------------------------------
+# Go
+#--------------------------------------------------
+export GOPATH=$HOME/.go
+export PATH=$GOPATH/bin:$PATH
+
+#--------------------------------------------------
 # anyenv
 #--------------------------------------------------
 
 if [ -d $HOME/.anyenv ] ; then
   export PATH="$HOME/.anyenv/bin:$PATH"
-  eval "$(anyenv init - zsh)"
+  # eval "$(anyenv init - zsh)"  # for bash on windows
+  eval "$(anyenv init -)"
   for D in `ls $HOME/.anyenv/envs`
   do
     export PATH="$HOME/.anyenv/envs/$D/shims:$PATH"
   done
-
-  # pyenv-virtualenv
-  if [ -d $HOME/.anyenv/envs/pyenv/plugins/pyenv-virtualenv ] ; then
-    eval "$(pyenv virtualenv-init -)"
-  fi
 fi
-
-
 
 #----------------------------------------------------------
 # Peco

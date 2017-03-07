@@ -5,18 +5,14 @@ fi
 
 # zshrc
 [ -f ~/.zshrc ] && rm ~/.zshrc
-ln -s ~/dotfiles/_zshrc ~/.zshrc
-
-# zshrc alias
 [ -f ~/.zshrc.alias ] && rm ~/.zshrc.alias
+ln -s ~/dotfiles/_zshrc ~/.zshrc
 ln -s ~/dotfiles/_zshrc.alias ~/.zshrc.alias
 
 # vim
 [ -d ~/.vim ] && rm ~/.vim
-ln -s ~/dotfiles/_vim ~/.vim
-
-# vimrc
 [ -f ~/.vimrc ] && rm ~/.vimrc
+ln -s ~/dotfiles/_vim ~/.vim
 ln -s ~/dotfiles/_vimrc ~/.vimrc
 
 # tmux
