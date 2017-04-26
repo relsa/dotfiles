@@ -102,6 +102,7 @@ function! s:remove_trailing_white_spaces()
   silent! execute '%s/\s\+$//g'
   call winrestview(pos)
 endfunction
+autocmd BufWritePre * call s:remove_trailing_white_spaces()
 command! RemoveTrailingWhiteSpaces call <SID>remove_trailing_white_spaces()
 command! -range=% TrimSpace  <line1>,<line2>s!\s*$!!g | nohlsearch
 command! -range=% RemoveTrailM  <line1>,<line2>s!\r$!!g | nohlsearch
@@ -224,22 +225,6 @@ if dein#tap('vim-quickrun')
        \ 'outputter/buffer/split' : ':botright 8sp',
        \ 'outputter/buffer/running_mark' : 'running...',
        \ }
- let g:quickrun_config['tex'] = {
-       \ 'command' : 'latexmk',
-       \ 'srcfile' : expand("%"),
-       \ 'cmdopt': '-pdfdvi',
-       \ 'hook/sweep/files' : [
-       \                      '%S:p:r.aux',
-       \                      '%S:p:r.bbl',
-       \                      '%S:p:r.blg',
-       \                      '%S:p:r.dvi',
-       \                      '%S:p:r.fdb_latexmk',
-       \                      '%S:p:r.fls',
-       \                      '%S:p:r.log',
-       \                      '%S:p:r.out'
-       \                      ],
-       \ 'exec': '%c %o %a %s',
-       \ }
  nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
 endif
 
@@ -272,8 +257,6 @@ if dein#tap('vim-easymotion')
   xmap t <Plug>(easymotion-tl)
   omap T <Plug>(easymotion-Tl)
   xmap T <Plug>(easymotion-Tl)
-  nmap <Leader>j <Plug>(easymotion-j)
-  nmap <Leader>k <Plug>(easymotion-k)
 endif
 
 if dein#tap('incsearch.vim') && dein#tap('vim-anzu')
