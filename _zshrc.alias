@@ -1,14 +1,19 @@
 case "${OSTYPE}" in
   darwin*)
   # Mac(Unix)
-    alias ls='ls -hFG' # Mac�p
+    if type gls 2>/dev/null 1>/dev/null
+    then
+      # glsが入ってる
+      alias ls='gls -hF --color=auto'
+    else
+      alias ls='ls -hFG'
+    fi
   ;;
   linux*)
   # Linux
     alias ls='ls -hF --color=auto'
   ;;
 esac
-
 alias ll='ls -l'
 alias la='ls -A'
 alias lal='ls -Al'
