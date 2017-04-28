@@ -157,6 +157,8 @@ inoremap  <C-d> <Del>
 inoremap  <C-u> <C-o>d0
 inoremap  <C-k> <C-o>d$
 
+inoremap <C-@> <Nop>
+
 nnoremap <silent> <Esc><Esc> :<C-u>nohlsearch<CR>
 
 cnoreabbrev w!! w !sudo tee > /dev/null %
@@ -178,8 +180,6 @@ if dein#tap('unite.vim')
   nnoremap <silent> [unite]r :<C-u>Unite -buffer-name=register register<CR>
   nnoremap <silent> [unite]m :<C-u>Unite file_mru<CR>
   nnoremap <silent> [unite]u :<C-u>Unite buffer file_mru<CR>
-  " nnoremap <silent> [unite]gs :<C-u>Unite giti/status<CR>
-  " nnoremap <silent> [unite]gb :<C-u>Unite giti/branch<CR>
   nnoremap <silent> [unite]o :<C-u>Unite outline<CR>
 endif
 
@@ -194,7 +194,7 @@ if dein#tap('neocomplete.vim')
 endif
 
 if dein#tap('neosnippet.vim')
-  let g:neosnippet#snippets_directory='~/.vim/dein/vim-snippets/snippets'
+  let g:neosnippet#snippets_directory='~/.vim/dein/neosnippet-snippets/snippets'
   imap <C-k> <Plug>(neosnippet_expand_or_jump)
   smap <C-k> <Plug>(neosnippet_expand_or_jump)
   xmap <C-k> <Plug>(neosnippet_expand_target)
@@ -204,19 +204,13 @@ if dein#tap('neosnippet.vim')
               \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 endif
 
-if dein#tap('vimfiler.vim')
-  let g:vimfiler_as_default_explorer = 1
-  nnoremap [filer] <Nop>
-  xnoremap [filer] <Nop>
-  nmap <Space>f [filer]
-  xmap <Space>f [filer]
-  nnoremap <silent> [filer]f :<C-u>VimFilerBufferDir<CR>
-  nnoremap <silent> [filer]t :<C-u>VimFilerBufferDir -tab<CR>
-  nnoremap <silent> [filer]s :<C-u>VimFilerBufferDir -split -simple -no-quit -winwidth=32<CR>
+if dein#tap('vaffle.vim')
+  nnoremap <silent> <Space>f :<C-u>Vaffle<CR>
+  let g:vaffle_auto_cd = 1
 endif
 
 if dein#tap('vim-quickrun')
- nnoremap <silent> <Leader>r <Nop><CR>
+ nnoremap <silent> <Leader>r <Nop>
  nnoremap <silent> <Leader>qr :QuickRun<CR>
  let g:quickrun_config = get(g:, 'quickrun_config', {})
  let g:quickrun_config._ = {
@@ -230,17 +224,17 @@ endif
 
 if dein#tap('lightline.vim')
   let g:lightline = {
-       \ 'colorscheme': 'jellybeans',
-       \ 'active': {
-       \   'left': [
-       \     ['mode', 'paste'],
-       \     ['readonly', 'filename', 'modified', 'anzu']
-       \   ]
-       \ },
-       \ 'component_function': {
-       \   'anzu': 'anzu#search_status'
-       \ }
-       \ }
+        \ 'colorscheme': 'jellybeans',
+        \ 'active': {
+        \   'left': [
+        \     ['mode', 'paste'],
+        \     ['readonly', 'filename', 'modified', 'anzu']
+        \   ]
+        \ },
+        \ 'component_function': {
+        \   'anzu': 'anzu#search_status'
+        \ }
+        \ }
 endif
 
 if dein#tap('vim-easymotion')
@@ -324,8 +318,8 @@ if dein#tap('vim-fugitive')
   nnoremap [fugitive]b :<C-u>Gblame<CR>
 endif
 
-if dein#tap('gundo.vim')
-  nnoremap <Leader>g :<C-u>GundoToggle<CR>
+if dein#tap('undotree')
+  nnoremap <Leader>g :<C-u>UndotreeToggle<CR>
 endif
 
 if dein#tap('vim-easy-align')
@@ -349,6 +343,25 @@ if dein#tap('vim-markdown')
   let g:vim_markdown_folding_disabled = 1
 endif
 
+if dein#tap('open-browser.vim')
+  " nnoremap [browse] <Nop>
+  " xnoremap [browse] <Nop>
+  " nmap <Space>o [browse]
+  " xmap <Space>o [browse]
+  nmap <Leader>oo <Plug>(openbrowser-open)
+  vmap <Leader>oo <Plug>(openbrowser-open)
+  nmap <Leader>os <Plug>(openbrowser-smart-search)
+  vmap <Leader>os <Plug>(openbrowser-smart-search)
+endif
+
+if dein#tap('emmet-vim')
+  let g:user_emmet_settings = {
+        \ 'variables' : {
+        \   'lang' : 'ja',
+        \ },
+        \ }
+endif
+
 
 " Colorscheme
 
@@ -357,9 +370,9 @@ set background=dark
 
 if dein#tap('jellybeans.vim')
   let g:jellybeans_overrides = {
-  \    'Search': {'attr': 'BOLD',
-  \               '256ctermfg': '255', '256ctermbg': '125'}
-  \ }
+        \ 'Search': {'attr': 'BOLD',
+        \ '256ctermfg': '255', '256ctermbg': '125'}
+        \ }
 endif
 
 colorscheme hybrid

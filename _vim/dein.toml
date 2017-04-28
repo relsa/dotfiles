@@ -6,9 +6,6 @@ repo = 'Shougo/vimproc.vim'
 build = 'make'
 
 [[plugins]]
-repo = 'Shougo/context_filetype.vim'
-
-[[plugins]]
 repo = 'Shougo/neosnippet-snippets'
 
 [[plugins]]
@@ -16,6 +13,9 @@ repo = 'tpope/vim-fugitive'
 
 [[plugins]]
 repo = 'itchyny/lightline.vim'
+
+[[plugins]]
+repo = 'itchyny/vim-cursorword'
 
 [[plugins]]
 repo = 'Yggdroot/indentLine'
@@ -31,6 +31,9 @@ repo = 'haya14busa/incsearch.vim'
 
 [[plugins]]
 repo = 'haya14busa/vim-asterisk'
+
+[[plugins]]
+repo = 'rhysd/clever-f.vim'
 
 [[plugins]]
 repo = 'vim-scripts/grep.vim'
