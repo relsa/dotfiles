@@ -77,7 +77,7 @@ set fileencoding=utf-8
 set fileencodings=utf-8,iso-2022-jp,cp932,sjis,euc-jp
 set fileformats=unix,dos,mac
 
-set foldmethod=manual
+set foldmethod=marker
 set textwidth=0
 set colorcolumn=80,120
 set wildmenu

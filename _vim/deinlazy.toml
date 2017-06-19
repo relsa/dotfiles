@@ -84,6 +84,10 @@ repo = 'tyru/caw.vim'
 on_map = {nv = '<Plug>'}
 
 [[plugins]]
+repo = 'cohama/lexima.vim'
+on_i = 1
+
+[[plugins]]
 repo = 'mbbill/undotree'
 on_cmd = 'UndotreeToggle'
 
