@@ -1,6 +1,7 @@
 # install anyenv
 if [ ! -d ~/.anyenv ] ; then
   git clone https://github.com/riywo/anyenv ~/.anyenv
+  git clone https://github.com/znz/anyenv-update.git ~/.anyenv/plugins/anyenv-update
 fi
 
 # zshrc
