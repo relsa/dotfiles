@@ -26,3 +26,4 @@ function cdls() {
 }
 alias cd=cdls
 alias localdisplay='export DISPLAY=localhost:0.0'
+alias mecab-neologd='mecab -d /usr/local/lib/mecab/dic/mecab-ipadic-neologd/'
