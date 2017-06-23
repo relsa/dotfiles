@@ -44,6 +44,9 @@ repo = 'LeafCage/foldCC.vim'
 [[plugins]]
 repo = 'mattn/webapi-vim'
 
+[[plugins]]
+repo = 'w0rp/ale'
+if = 'v:version >= 800'
 
 # Colorschemes
 

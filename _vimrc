@@ -228,11 +228,12 @@ if dein#tap('lightline.vim')
         \ 'active': {
         \   'left': [
         \     ['mode', 'paste'],
-        \     ['readonly', 'filename', 'modified', 'anzu']
+        \     ['readonly', 'filename', 'modified', 'ale', 'anzu']
         \   ]
         \ },
         \ 'component_function': {
-        \   'anzu': 'anzu#search_status'
+        \   'anzu': 'anzu#search_status',
+        \   'ale': 'ALEGetStatusLine'
         \ }
         \ }
 endif
@@ -348,10 +349,10 @@ if dein#tap('open-browser.vim')
   " xnoremap [browse] <Nop>
   " nmap <Space>o [browse]
   " xmap <Space>o [browse]
-  nmap <Leader>oo <Plug>(openbrowser-open)
-  vmap <Leader>oo <Plug>(openbrowser-open)
-  nmap <Leader>os <Plug>(openbrowser-smart-search)
-  vmap <Leader>os <Plug>(openbrowser-smart-search)
+  nnoremap <Leader>oo <Plug>(openbrowser-open)
+  vnoremap <Leader>oo <Plug>(openbrowser-open)
+  nnoremap <Leader>os <Plug>(openbrowser-smart-search)
+  vnoremap <Leader>os <Plug>(openbrowser-smart-search)
 endif
 
 if dein#tap('emmet-vim')
@@ -360,6 +361,16 @@ if dein#tap('emmet-vim')
         \   'lang' : 'ja',
         \ },
         \ }
+endif
+
+if dein#tap('ale')
+  let g:ale_sign_column_always = 1
+  let g:ale_sign_error = '!!'
+  let g:ale_sign_warning = '??'
+  let g:ale_echo_msg_format = '[%severity%][%linter%] %s'
+  let g:ale_statusline_format = ['E:%d', 'W:%d', '']
+  nnoremap <silent> <Space>aj <Plug>(ale_previous_wrap)
+  nnoremap <silent> <Space>ak <Plug>(ale_next_wrap)
 endif
 
 
